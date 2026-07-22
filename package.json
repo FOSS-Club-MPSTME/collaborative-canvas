@@ -11,7 +11,8 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build:client": "npm --prefix client run build",
     "build": "npm run build:client",
-    "preprocess": "node server/scripts/preprocess-artwork.js"
+    "preprocess": "node server/scripts/preprocess-artwork.js",
+    "test": "node server/tests/api-test.js"
   },
   "keywords": [],
   "author": "Sachin",

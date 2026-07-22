@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const db = require('./db');
+const apiRouter = require('./routes/api');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +27,10 @@ app.get('/api/health', (req, res) => {
     res.status(500).json({ status: 'error', message: error.message });
   }
 });
+
+// Mount modular API routers
+app.use('/api/admin', adminRouter);
+app.use('/api', apiRouter);
 
 // Serve built React static files in production / offline mode
 const staticPath = path.join(__dirname, '../client/dist');

@@ -29,17 +29,17 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
 
 ## Phase 2: Backend REST API
 
-- [ ] **2.1 Core Painting & Frame API**
+- [x] **2.1 Core Painting & Frame API**
   - `GET /api/active-painting`: Return active painting metadata and current state of all 6 frames.
   - `POST /api/start-frame`: Handle session start for Tablet A/B, allocate next interleaved frame (A: 1, 3, 5 | B: 2, 4, 6), set frame state to `in_progress`, and record user name/avatar.
   - `POST /api/update-pixels-batch`: Handle batched in-progress pixel color sync updates.
   - `POST /api/submit-frame`: Lock frame state, record `locked_at`, clear active session, check if all 6 frames are locked (if complete, mark painting `completed` and auto-advance sequence).
 
-- [ ] **2.2 Display Feeds API**
+- [x] **2.2 Display Feeds API**
   - `GET /api/painting-state`: Return full pixel grid data for all 6 frames for the Live Canvas Display.
   - `GET /api/active-drawers`: Return active drawer details (tablet ID, participant name, avatar, frame number) for the Current Drawers Display.
 
-- [ ] **2.3 Admin API**
+- [x] **2.3 Admin API**
   - Auth middleware / passcode verification for admin endpoints.
   - `POST /api/admin/reset-frame`: Reset specific frame to `unclaimed`.
   - `POST /api/admin/reset-painting`: Reset all frames of a painting to `unclaimed`.
