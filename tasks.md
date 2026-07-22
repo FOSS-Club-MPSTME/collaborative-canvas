@@ -20,7 +20,7 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
     - `sessions` (`tablet_id`, `current_painting_id`, `current_frame_id`, `participant_name`, `participant_avatar`, `started_at`)
 
 - [x] **1.3 Asset Preprocessing & Seeding Pipeline**
-  - Implement a CLI/script to downsample and quantize source artwork into 6 frames of 16×16 pixel grids (256 pixels per frame, 1,536 total per painting).
+  - Implement a CLI/script to downsample and quantize source artwork into 6 frames of 24×24 pixel grids (576 pixels per frame, 3,456 total per painting).
   - Extract faint guide outlines for each frame.
   - Seed SQLite database with preprocessed paintings and initial sequence order.
 
