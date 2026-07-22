@@ -86,13 +86,13 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
 
 ## Phase 5: Display Screens
 
-- [ ] **5.1 Live Canvas Screen (`/display/canvas`)**
+- [x] **5.1 Live Canvas Screen (`/display/canvas`)**
   - Assembles all 6 frames into a cohesive full painting view.
   - Polling loop (`/api/painting-state` every 2–3 seconds).
   - Progress bar / completion percentage counter.
   - Celebration banner / animation upon 100% completion before advancing.
 
-- [ ] **5.2 Current Drawers Screen (`/display/drawers`)**
+- [x] **5.2 Current Drawers Screen (`/display/drawers`)**
   - Dual card layout for Tablet A & Tablet B.
   - Polling loop (`/api/active-drawers` every 1–2 seconds).
   - Display active drawer's Notion-style avatar, name, and frame number.

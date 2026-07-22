@@ -5,6 +5,8 @@ import PixelGrid, { MultiFrameCanvas } from './components/PixelGrid';
 import ColorPalette, { MASTER_PALETTE } from './components/ColorPalette';
 import NotionAvatar, { NotionAvatarPicker } from './components/NotionAvatar';
 import TabletView from './views/TabletView';
+import LiveCanvasView from './views/LiveCanvasView';
+import CurrentDrawersView from './views/CurrentDrawersView';
 import './App.css';
 
 function Home() {
@@ -154,8 +156,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/tablet/a" element={<TabletView tabletId="A" />} />
         <Route path="/tablet/b" element={<TabletView tabletId="B" />} />
-        <Route path="/display/canvas" element={<RoutePlaceholder title="Live Canvas Display" route="/display/canvas" />} />
-        <Route path="/display/drawers" element={<RoutePlaceholder title="Current Drawers Display" route="/display/drawers" />} />
+        <Route path="/display/canvas" element={<LiveCanvasView />} />
+        <Route path="/display/drawers" element={<CurrentDrawersView />} />
         <Route path="/admin" element={<RoutePlaceholder title="Staff Admin Panel" route="/admin" />} />
       </Routes>
     </BrowserRouter>
