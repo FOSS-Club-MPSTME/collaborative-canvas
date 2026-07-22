@@ -1,0 +1,29 @@
+{
+  "name": "collaborative-canvas",
+  "version": "1.0.0",
+  "description": "Live Collaborative Pixel Canvas — FOSS Induction Event",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "dev:server": "node --watch server/index.js",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build:client": "npm --prefix client run build",
+    "build": "npm run build:client",
+    "preprocess": "node server/scripts/preprocess-artwork.js"
+  },
+  "keywords": [],
+  "author": "Sachin",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "sharp": "^0.33.5"
+  }
+}
