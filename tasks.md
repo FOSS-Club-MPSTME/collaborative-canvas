@@ -50,7 +50,7 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
 
 ## Phase 3: Frontend Shared Components & Routing
 
-- [ ] **3.1 Routing & Layout**
+- [x] **3.1 Routing & Layout**
   - Setup React Router with 5 dedicated routes ([architecture.md](file:///Users/sachin/Code_Playground/collaborative-canvas/architecture.md#22-react-frontend-single-codebase-multiple-routes)):
     - `/tablet/a` — Tablet A drawing view
     - `/tablet/b` — Tablet B drawing view
@@ -58,7 +58,7 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
     - `/display/drawers` — Current Drawers Display 2
     - `/admin` — Admin control panel
 
-- [ ] **3.2 Shared Visual Components**
+- [x] **3.2 Shared Visual Components**
   - **Pixel Grid Component**: Render 16×16 interactive grid with faint guide overlay support and 16×16px tile rendering.
   - **Color Palette Component**: Curated 8–12 color swatch selector.
   - **Notion-Style Avatar Component**: Avatar gallery selector & deterministic generator based on participant name.
