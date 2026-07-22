@@ -102,10 +102,10 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
 
 ## Phase 6: Admin Panel (`/admin`)
 
-- [ ] **6.1 Passcode Protection**
+- [x] **6.1 Passcode Protection**
   - Lock screen requiring staff passcode before accessing admin functions.
 
-- [ ] **6.2 Emergency Controls & Queue Management**
+- [x] **6.2 Emergency Controls & Queue Management**
   - Single frame reset UI.
   - Entire painting reset UI.
   - Active painting manual override selector.
@@ -115,10 +115,10 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
 
 ## Phase 7: Offline Testing, Polish & Event Readiness
 
-- [ ] **7.1 Offline Local Network Testing**
+- [x] **7.1 Offline Local Network Testing**
   - Test multi-device concurrency over local wifi/hotspot without internet connection.
   - Verify touch drag performance on target tablet hardware (zero-lag finger tracking).
   - Verify display scaling for large screens / projectors.
 
-- [ ] **7.2 Deployment & Setup Documentation**
+- [x] **7.2 Deployment & Setup Documentation**
   - Write runbook for booth staff (server startup, static IP assignment, tablet URL setup, admin recovery steps).

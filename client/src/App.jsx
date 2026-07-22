@@ -7,6 +7,7 @@ import NotionAvatar, { NotionAvatarPicker } from './components/NotionAvatar';
 import TabletView from './views/TabletView';
 import LiveCanvasView from './views/LiveCanvasView';
 import CurrentDrawersView from './views/CurrentDrawersView';
+import AdminView from './views/AdminView';
 import './App.css';
 
 function Home() {
@@ -158,7 +159,7 @@ export default function App() {
         <Route path="/tablet/b" element={<TabletView tabletId="B" />} />
         <Route path="/display/canvas" element={<LiveCanvasView />} />
         <Route path="/display/drawers" element={<CurrentDrawersView />} />
-        <Route path="/admin" element={<RoutePlaceholder title="Staff Admin Panel" route="/admin" />} />
+        <Route path="/admin" element={<AdminView />} />
       </Routes>
     </BrowserRouter>
   );
