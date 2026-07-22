@@ -67,18 +67,18 @@ A structured breakdown of development tasks based on [pixel-canvas-prd.md](file:
 
 ## Phase 4: Tablet Interface (`/tablet/a` & `/tablet/b`)
 
-- [ ] **4.1 Participant Onboarding Flow**
+- [x] **4.1 Participant Onboarding Flow**
   - Name entry screen with touch keyboard support.
   - Notion-style avatar pick / auto-generation preview.
   - "Start Painting" action calling `POST /api/start-frame`.
 
-- [ ] **4.2 Interactive Drawing Interface**
+- [x] **4.2 Interactive Drawing Interface**
   - Touch-drag & mouse-drag painting interaction across grid tiles without page scroll/zoom interference.
   - Selected color highlighting.
   - Clear frame / Undo action.
   - Client-side batched periodic sync to `POST /api/update-pixels-batch`.
 
-- [ ] **4.3 Submission & Transition**
+- [x] **4.3 Submission & Transition**
   - "Submit Frame" lock confirmation action calling `POST /api/submit-frame`.
   - Seamless auto-reset to participant onboarding for the next user.
 
