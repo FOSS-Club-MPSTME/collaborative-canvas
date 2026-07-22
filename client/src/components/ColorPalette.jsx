@@ -28,25 +28,26 @@ export default function ColorPalette({ selectedColor, onSelectColor }) {
         justify: 'space-between',
         alignItems: 'center'
       }}>
-        <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Select Color Palette
+        <span style={{ fontSize: '0.875rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Select Paint Color 🎨
         </span>
         <span style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          fontSize: '0.875rem',
-          fontWeight: 700,
-          color: selectedColor
+          fontSize: '0.85rem',
+          fontWeight: 800,
+          color: 'var(--ink-dark)',
+          fontFamily: 'Fredoka, cursive'
         }}>
           <span style={{
-            width: '12px',
-            height: '12px',
+            width: '14px',
+            height: '14px',
             borderRadius: '50%',
             backgroundColor: selectedColor,
-            boxShadow: `0 0 8px ${selectedColor}`
+            border: '2px solid var(--ink-dark)'
           }} />
-          {MASTER_PALETTE.find(p => p.hex === selectedColor)?.name || 'Custom Color'}
+          {MASTER_PALETTE.find(p => p.hex === selectedColor)?.name || 'Paint Color'}
         </span>
       </div>
 
@@ -67,18 +68,18 @@ export default function ColorPalette({ selectedColor, onSelectColor }) {
                 height: '52px',
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: color.hex,
-                border: isSelected ? '3px solid #ffffff' : '1px solid rgba(255,255,255,0.15)',
-                boxShadow: isSelected ? `0 0 16px ${color.hex}` : 'none',
-                transform: isSelected ? 'scale(1.08)' : 'scale(1)',
+                border: '3px solid var(--ink-dark)',
+                boxShadow: isSelected ? '4px 4px 0px var(--ink-dark)' : '2px 2px 0px var(--ink-dark)',
+                transform: isSelected ? 'scale(1.08) rotate(-2deg)' : 'scale(1)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.12s ease',
                 display: 'flex',
                 alignItems: 'center',
                 justify: 'center'
               }}
             >
               {isSelected && (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color.hex === '#f3f4f6' ? '#000000' : '#ffffff'} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color.hex === '#f3f4f6' ? '#1e272e' : '#ffffff'} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               )}

@@ -24,7 +24,6 @@ export default function LiveCanvasView() {
     }
   };
 
-  // Poll /api/painting-state every 2 seconds
   useEffect(() => {
     fetchPaintingState();
     const timer = setInterval(fetchPaintingState, 2000);
@@ -48,44 +47,45 @@ export default function LiveCanvasView() {
 
       {loading && !paintingState ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
-          <h2>Connecting to Live Canvas Feed...</h2>
+          <h2 style={{ fontFamily: 'Fredoka, cursive' }}>Connecting to Live Canvas Feed... 🎨</h2>
         </div>
       ) : errorMsg ? (
-        <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--accent-red)' }}>
+        <div className="sticker-card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--pop-red)' }}>
           <h3>⚠️ {errorMsg}</h3>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          {/* Header Metadata & Progress Bar */}
-          <div className="glass-panel" style={{
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.75rem' }}>
+          {/* Header Metadata & Progress Bar Card */}
+          <div className="sticker-card tilt-slight" style={{
             width: '100%',
-            padding: '1.5rem 2rem',
-            borderRadius: 'var(--radius-xl)',
+            padding: '1.75rem 2rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
-            border: '1px solid var(--border-color)'
+            position: 'relative'
           }}>
+            <div className="pushpin" style={{ left: '50%' }} />
+
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-cyan)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.08em', backgroundColor: 'var(--pop-yellow)', padding: '0.2rem 0.6rem', borderRadius: '12px', border: '2px solid var(--ink-dark)' }}>
                   Painting #{painting?.sequence_order} • Master Artwork
                 </span>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-main)', marginTop: '0.2rem' }}>
+                <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--ink-dark)', marginTop: '0.35rem' }}>
                   {painting?.name || 'Untitled Painting'}
                 </h2>
                 {painting?.artist && (
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                    Original Artist: <strong>{painting.artist}</strong>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                    Original Masterpiece by <strong>{painting.artist}</strong>
                   </p>
                 )}
               </div>
 
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '2.4rem', fontWeight: 800, color: 'var(--accent-green)' }}>
+                <div style={{ fontSize: '2.8rem', fontWeight: 800, color: 'var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
                   {completionPercentage}%
                 </div>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 800 }}>
                   {lockedCount} of 6 Frames Locked
                 </span>
               </div>
@@ -94,53 +94,58 @@ export default function LiveCanvasView() {
             {/* Smooth Completion Progress Bar */}
             <div style={{
               width: '100%',
-              height: '14px',
-              backgroundColor: 'var(--bg-dark)',
-              borderRadius: '8px',
+              height: '18px',
+              backgroundColor: 'var(--cork-bg)',
+              borderRadius: '10px',
               overflow: 'hidden',
-              border: '1px solid var(--border-color)'
+              border: '3px solid var(--ink-dark)',
+              boxShadow: '2px 2px 0px var(--ink-dark)'
             }}>
               <div style={{
                 width: `${completionPercentage}%`,
                 height: '100%',
-                backgroundColor: isCompleted ? 'var(--accent-green)' : 'var(--accent-cyan)',
+                backgroundColor: isCompleted ? 'var(--pop-green)' : 'var(--pop-cyan)',
                 borderRadius: '8px',
-                transition: 'width 0.5s ease-in-out',
-                boxShadow: `0 0 12px ${isCompleted ? 'var(--accent-green)' : 'var(--accent-cyan)'}`
+                transition: 'width 0.5s ease-in-out'
               }} />
             </div>
           </div>
 
           {/* Celebratory Banner Overlay when completed */}
           {isCompleted && (
-            <div className="glass-panel animate-pulse-glow" style={{
+            <div className="sticker-card animate-pop-in" style={{
               width: '100%',
-              padding: '1.25rem',
-              borderRadius: 'var(--radius-lg)',
-              backgroundColor: 'rgba(34, 197, 94, 0.15)',
-              border: '2px solid var(--accent-green)',
+              padding: '1.5rem',
+              backgroundColor: 'var(--pop-yellow)',
+              border: '4px solid var(--ink-dark)',
+              boxShadow: '6px 6px 0px var(--ink-dark)',
               textAlign: 'center'
             }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent-green)' }}>
+              <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
                 🎉 Master Painting Complete!
               </h2>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                All 6 frames locked. Transitioning to next artwork in queue...
+              <p style={{ fontSize: '0.95rem', color: 'var(--ink-dark)', fontWeight: 600, marginTop: '0.25rem' }}>
+                All 6 frames locked! Transitioning to next masterpiece in queue...
               </p>
             </div>
           )}
 
-          {/* Master 6-Frame Assembled Painting (32×48 Resolution Matrix) */}
-          <div style={{ margin: '1rem 0' }}>
+          {/* Master 6-Frame Assembled Painting (48×72 Resolution Matrix) */}
+          <div style={{ margin: '0.5rem 0' }}>
             <MultiFrameCanvas frames={frames} cellSize={14} showGuides={true} />
           </div>
 
           {/* FOSS Tagline */}
-          <footer style={{
-            fontSize: '0.9rem',
-            color: 'var(--text-muted)',
+          <footer className="sticker-card" style={{
+            padding: '0.85rem 1.5rem',
+            fontSize: '0.95rem',
+            fontWeight: 700,
+            color: 'var(--ink-dark)',
             textAlign: 'center',
-            letterSpacing: '0.04em'
+            backgroundColor: 'var(--pop-yellow)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem'
           }}>
             🤝 <strong>FOSS Induction Event</strong> — <em>Six individual contributions combined into one shared masterpiece.</em>
           </footer>

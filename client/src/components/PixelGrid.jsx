@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 /**
- * 24x24 Interactive Pixel Grid Component
+ * 24x24 Interactive Pixel Grid Component — Corkboard & Scribble Theme
  */
 export default function PixelGrid({
   pixelGrid,
@@ -17,11 +17,9 @@ export default function PixelGrid({
   const [isMouseDown, setIsMouseDown] = useState(false);
   const gridRef = useRef(null);
 
-  // Initialize empty grid fallback for 24x24
   const grid = pixelGrid || Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
   const guides = guideData || Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
 
-  // Global mouseup listener to end drag when releasing outside grid
   useEffect(() => {
     const handleGlobalMouseUp = () => setIsMouseDown(false);
     window.addEventListener('mouseup', handleGlobalMouseUp);
@@ -48,7 +46,6 @@ export default function PixelGrid({
     }
   };
 
-  // Touch drag tracking over grid elements
   const handleTouchMove = (e) => {
     if (readOnly || !onPixelChange) return;
     const touch = e.touches[0];
@@ -65,20 +62,24 @@ export default function PixelGrid({
   };
 
   return (
-    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
       {frameNumber && (
         <div style={{
-          fontSize: '0.8rem',
-          fontWeight: 700,
-          color: 'var(--accent-cyan)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.08em',
+          fontSize: '0.85rem',
+          fontWeight: 800,
+          color: 'var(--ink-dark)',
+          fontFamily: 'Fredoka, cursive',
           display: 'flex',
           alignItems: 'center',
-          gap: '0.4rem'
+          gap: '0.4rem',
+          backgroundColor: 'var(--pop-yellow)',
+          padding: '0.2rem 0.65rem',
+          borderRadius: '12px',
+          border: '2px solid var(--ink-dark)',
+          boxShadow: '2px 2px 0px var(--ink-dark)'
         }}>
-          <span>Frame #{frameNumber}</span>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(24×24 Grid)</span>
+          <span>📌 Frame #{frameNumber}</span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--ink-dark)', opacity: 0.8 }}>(24×24)</span>
         </div>
       )}
 
@@ -92,11 +93,11 @@ export default function PixelGrid({
           gridTemplateColumns: `repeat(${gridSize}, ${cellSize}px)`,
           gridTemplateRows: `repeat(${gridSize}, ${cellSize}px)`,
           gap: '1px',
-          backgroundColor: '#1e293b',
-          padding: '3px',
+          backgroundColor: 'var(--ink-dark)',
+          padding: '4px',
           borderRadius: 'var(--radius-md)',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-          border: '2px solid var(--border-color)',
+          boxShadow: '5px 5px 0px var(--ink-dark)',
+          border: '3px solid var(--ink-dark)',
           userSelect: 'none',
           WebkitUserSelect: 'none'
         }}
@@ -117,11 +118,11 @@ export default function PixelGrid({
                 style={{
                   width: `${cellSize}px`,
                   height: `${cellSize}px`,
-                  backgroundColor: isPainted ? cellColor : (showGuides && guideColor ? guideColor : '#0f172a'),
-                  opacity: isPainted ? 1 : (showGuides && guideColor ? 0.35 : 1),
+                  backgroundColor: isPainted ? cellColor : (showGuides && guideColor ? guideColor : '#ffffff'),
+                  opacity: isPainted ? 1 : (showGuides && guideColor ? 0.38 : 1),
                   borderRadius: '1px',
                   cursor: readOnly ? 'default' : 'crosshair',
-                  transition: 'background-color 0.05s ease, opacity 0.1s ease',
+                  transition: 'background-color 0.05s ease',
                   position: 'relative'
                 }}
               >
@@ -135,7 +136,7 @@ export default function PixelGrid({
                     height: '2px',
                     borderRadius: '50%',
                     backgroundColor: guideColor,
-                    opacity: 0.8
+                    opacity: 0.95
                   }} />
                 )}
               </div>
@@ -148,7 +149,7 @@ export default function PixelGrid({
 }
 
 /**
- * Composite Multi-Frame Canvas (Renders full painting from 6 frames: 2 rows x 3 cols of 24x24 = 48x72)
+ * Composite Multi-Frame Canvas (Renders full 48x72 painting in 2x3 grid)
  */
 export function MultiFrameCanvas({ frames, cellSize = 12, showGuides = true }) {
   const sortedFrames = Array.from({ length: 6 }).map((_, idx) => {
@@ -161,12 +162,13 @@ export function MultiFrameCanvas({ frames, cellSize = 12, showGuides = true }) {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, auto)',
       gridTemplateRows: 'repeat(2, auto)',
-      gap: '4px',
-      padding: '8px',
-      backgroundColor: '#090d16',
-      borderRadius: 'var(--radius-lg)',
-      border: '2px solid var(--border-color)',
-      boxShadow: 'var(--shadow-glow)'
+      gap: '6px',
+      padding: '12px',
+      backgroundColor: 'var(--cork-card)',
+      borderRadius: 'var(--radius-xl)',
+      border: '4px solid var(--ink-dark)',
+      boxShadow: '6px 6px 0px var(--ink-dark)',
+      position: 'relative'
     }}>
       {sortedFrames.map((frame, idx) => (
         <PixelGrid

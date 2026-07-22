@@ -10,7 +10,6 @@ export default function AdminView() {
   const [loading, setLoading] = useState(false);
   const [statusMsg, setStatusMsg] = useState({ type: '', text: '' });
 
-  // Load authenticated passcode from session storage if present
   useEffect(() => {
     const saved = sessionStorage.getItem('admin_passcode');
     if (saved) {
@@ -49,14 +48,12 @@ export default function AdminView() {
 
   const loadAdminData = async (code = passcode) => {
     try {
-      // 1. Fetch active painting & frame states
       const activeRes = await fetch('/api/active-painting');
       if (activeRes.ok) {
         const data = await activeRes.json();
         setActiveData(data);
       }
 
-      // 2. Fetch sequence queue
       const seqRes = await fetch('/api/admin/sequence', {
         headers: { 'X-Admin-Passcode': code }
       });
@@ -80,7 +77,6 @@ export default function AdminView() {
     sessionStorage.removeItem('admin_passcode');
   };
 
-  // Admin Actions
   const handleResetFrame = async (frameId, frameNumber) => {
     if (!window.confirm(`Reset Frame #${frameNumber} back to unclaimed?`)) return;
     try {
@@ -155,12 +151,10 @@ export default function AdminView() {
     const targetIdx = index + direction;
     if (targetIdx < 0 || targetIdx >= newSeq.length) return;
 
-    // Swap items
     const temp = newSeq[index];
     newSeq[index] = newSeq[targetIdx];
     newSeq[targetIdx] = temp;
 
-    // Update sequence orders
     const payload = newSeq.map((item, idx) => ({
       id: item.id,
       sequence_order: idx + 1
@@ -194,15 +188,13 @@ export default function AdminView() {
         subtitle="Emergency Resets & Daily Queue Management"
       />
 
-      {/* Status Messages */}
       {statusMsg.text && (
-        <div className="glass-panel" style={{
+        <div className="sticker-card" style={{
           padding: '0.85rem 1.25rem',
-          borderRadius: 'var(--radius-md)',
           marginBottom: '1.5rem',
-          backgroundColor: statusMsg.type === 'error' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(34, 197, 94, 0.15)',
-          border: `1px solid ${statusMsg.type === 'error' ? 'var(--accent-red)' : 'var(--accent-green)'}`,
-          color: statusMsg.type === 'error' ? 'var(--accent-red)' : 'var(--accent-green)',
+          backgroundColor: statusMsg.type === 'error' ? 'var(--pop-red)' : 'var(--pop-green)',
+          color: '#ffffff',
+          fontWeight: 700,
           display: 'flex',
           justify: 'space-between',
           alignItems: 'center'
@@ -212,14 +204,15 @@ export default function AdminView() {
         </div>
       )}
 
-      {/* Screen 1: Passcode Authentication Screen */}
       {!authenticated ? (
-        <div className="glass-card" style={{ padding: '2.5rem', maxWidth: '440px', margin: '3rem auto', textAlign: 'center' }}>
+        <div className="sticker-card tilt-slight" style={{ padding: '2.5rem', maxWidth: '460px', margin: '3rem auto', textAlign: 'center', position: 'relative' }}>
+          <div className="pushpin" style={{ left: '50%' }} />
+
           <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔒</div>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '0.35rem' }}>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '0.35rem' }}>
             Staff Access Required
           </h2>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.75rem' }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '1.75rem' }}>
             Enter booth admin passcode to access reset controls.
           </p>
 
@@ -228,20 +221,21 @@ export default function AdminView() {
               type="password"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              placeholder="Enter passcode (default: 1234)"
+              placeholder="Passcode (default: 1234)"
               required
               autoFocus
               style={{
                 width: '100%',
-                padding: '0.85rem 1rem',
-                fontSize: '1.1rem',
-                fontWeight: 600,
+                padding: '0.9rem 1rem',
+                fontSize: '1.2rem',
+                fontWeight: 700,
                 textAlign: 'center',
                 letterSpacing: '0.2em',
                 borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--bg-dark)',
-                color: 'var(--text-main)',
-                border: '2px solid var(--border-color)',
+                backgroundColor: '#ffffff',
+                color: 'var(--ink-dark)',
+                border: '3px solid var(--ink-dark)',
+                boxShadow: '3px 3px 0px var(--ink-dark)',
                 outline: 'none'
               }}
             />
@@ -249,38 +243,32 @@ export default function AdminView() {
             <button
               type="submit"
               disabled={loading}
+              className="sticker-btn"
               style={{
                 width: '100%',
-                padding: '0.9rem',
-                fontSize: '1rem',
-                fontWeight: 800,
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--accent-red)',
-                color: '#ffffff',
-                border: 'none',
-                cursor: 'pointer'
+                padding: '1rem',
+                fontSize: '1.15rem',
+                backgroundColor: 'var(--pop-red)',
+                color: '#ffffff'
               }}
             >
-              {loading ? 'Verifying...' : 'Unlock Admin Panel'}
+              {loading ? 'Verifying...' : 'Unlock Admin Panel 🔓'}
             </button>
           </form>
         </div>
       ) : (
-        /* Screen 2: Staff Dashboard */
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          {/* Header Controls */}
-          <div className="glass-panel" style={{
+          <div className="sticker-card" style={{
             padding: '1.25rem 1.5rem',
-            borderRadius: 'var(--radius-lg)',
             display: 'flex',
             justify: 'space-between',
             alignItems: 'center'
           }}>
             <div>
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-green)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--ink-dark)', backgroundColor: 'var(--pop-green)', padding: '0.2rem 0.6rem', borderRadius: '12px', border: '2px solid var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
                 🟢 Admin Unlocked
               </span>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)', marginTop: '0.1rem' }}>
+              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--ink-dark)', marginTop: '0.2rem' }}>
                 Booth Control Dashboard
               </h2>
             </div>
@@ -288,124 +276,98 @@ export default function AdminView() {
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <button
                 onClick={() => loadAdminData()}
-                style={{
-                  padding: '0.5rem 0.85rem',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'rgba(56, 189, 248, 0.15)',
-                  color: 'var(--accent-cyan)',
-                  border: '1px solid var(--accent-cyan)44',
-                  cursor: 'pointer'
-                }}
+                className="sticker-btn"
+                style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', backgroundColor: 'var(--pop-yellow)' }}
               >
                 Refresh Data 🔄
               </button>
 
               <button
                 onClick={handleLogout}
-                style={{
-                  padding: '0.5rem 0.85rem',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                  color: 'var(--accent-red)',
-                  border: '1px solid var(--accent-red)44',
-                  cursor: 'pointer'
-                }}
+                className="sticker-btn"
+                style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', backgroundColor: 'var(--pop-red)', color: '#ffffff' }}
               >
                 Lock Panel 🔒
               </button>
             </div>
           </div>
 
-          {/* Section A: Active Painting Frame Management */}
           {activeData && activeData.painting && (
-            <div className="glass-card" style={{ padding: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+            <div className="sticker-card" style={{ padding: '1.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                 <div>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-cyan)', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase' }}>
                     Active Painting Controls
                   </span>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-main)', marginTop: '0.1rem' }}>
+                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--ink-dark)', marginTop: '0.1rem' }}>
                     {activeData.painting.name} ({activeData.completionPercentage}% Complete)
                   </h3>
                 </div>
 
                 <button
                   onClick={() => handleResetPainting(activeData.painting.id, activeData.painting.name)}
-                  style={{
-                    padding: '0.6rem 1rem',
-                    fontSize: '0.85rem',
-                    fontWeight: 700,
-                    borderRadius: 'var(--radius-md)',
-                    backgroundColor: 'var(--accent-red)',
-                    color: '#ffffff',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className="sticker-btn"
+                  style={{ backgroundColor: 'var(--pop-red)', color: '#ffffff', fontSize: '0.85rem' }}
                 >
                   Reset Entire Painting ⚠️
                 </button>
               </div>
 
-              {/* 6 Frames Management Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
                 {activeData.frames.map((frame) => {
                   const tabletAssigned = frame.frame_number % 2 !== 0 ? 'A' : 'B';
                   return (
                     <div
                       key={frame.id}
                       style={{
-                        padding: '1rem',
+                        padding: '1.15rem',
                         borderRadius: 'var(--radius-md)',
-                        backgroundColor: 'var(--bg-dark)',
-                        border: '1px solid var(--border-color)',
+                        backgroundColor: 'var(--cork-bg)',
+                        border: '3px solid var(--ink-dark)',
+                        boxShadow: '3px 3px 0px var(--ink-dark)',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '0.75rem'
+                        gap: '0.85rem'
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--accent-cyan)' }}>
-                          Frame #{frame.frame_number} <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Tablet {tabletAssigned})</span>
+                        <span style={{ fontWeight: 800, fontSize: '1rem', color: 'var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
+                          Frame #{frame.frame_number} <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>(Tablet {tabletAssigned})</span>
                         </span>
                         <span style={{
-                          fontSize: '0.75rem',
-                          fontWeight: 700,
-                          padding: '0.15rem 0.5rem',
+                          fontSize: '0.8rem',
+                          fontWeight: 800,
+                          padding: '0.2rem 0.6rem',
                           borderRadius: '12px',
-                          backgroundColor: frame.status === 'locked' ? 'var(--accent-green)22' : frame.status === 'in_progress' ? 'var(--accent-gold)22' : 'rgba(255,255,255,0.08)',
-                          color: frame.status === 'locked' ? 'var(--accent-green)' : frame.status === 'in_progress' ? 'var(--accent-gold)' : 'var(--text-muted)'
+                          border: '2px solid var(--ink-dark)',
+                          backgroundColor: frame.status === 'locked' ? 'var(--pop-green)' : frame.status === 'in_progress' ? 'var(--pop-yellow)' : '#ffffff',
+                          color: 'var(--ink-dark)',
+                          fontFamily: 'Fredoka, cursive'
                         }}>
-                          {frame.status}
+                          {frame.status.toUpperCase()}
                         </span>
                       </div>
 
                       {frame.owner_name ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                          <NotionAvatar avatarId={frame.owner_avatar} name={frame.owner_name} size={32} />
-                          <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>{frame.owner_name}</span>
+                          <NotionAvatar avatarId={frame.owner_avatar} name={frame.owner_name} size={36} />
+                          <span style={{ fontSize: '0.95rem', fontWeight: 800 }}>{frame.owner_name}</span>
                         </div>
                       ) : (
-                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', italic: 'true' }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                           Unclaimed slot
                         </span>
                       )}
 
                       <button
                         onClick={() => handleResetFrame(frame.id, frame.frame_number)}
+                        className="sticker-btn"
                         style={{
                           marginTop: 'auto',
-                          padding: '0.4rem 0.6rem',
-                          fontSize: '0.75rem',
-                          fontWeight: 600,
-                          borderRadius: 'var(--radius-sm)',
-                          backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                          color: 'var(--accent-red)',
-                          border: '1px solid var(--accent-red)44',
-                          cursor: 'pointer'
+                          padding: '0.35rem 0.6rem',
+                          fontSize: '0.8rem',
+                          backgroundColor: 'var(--pop-pink)',
+                          color: '#ffffff'
                         }}
                       >
                         Reset Frame #{frame.frame_number}
@@ -417,23 +379,23 @@ export default function AdminView() {
             </div>
           )}
 
-          {/* Section B: Daily Painting Queue & Sequence Manager */}
-          <div className="glass-card" style={{ padding: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '1rem' }}>
+          <div className="sticker-card" style={{ padding: '1.75rem' }}>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '1.25rem' }}>
               📜 Daily Painting Queue Sequence
             </h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {sequence.map((item, index) => {
                 const isActive = item.status === 'active';
                 return (
                   <div
                     key={item.id}
                     style={{
-                      padding: '1rem 1.25rem',
+                      padding: '1.15rem 1.35rem',
                       borderRadius: 'var(--radius-md)',
-                      backgroundColor: isActive ? 'rgba(56, 189, 248, 0.1)' : 'var(--bg-dark)',
-                      border: `1px solid ${isActive ? 'var(--accent-cyan)' : 'var(--border-color)'}`,
+                      backgroundColor: isActive ? 'var(--pop-yellow)' : 'var(--cork-bg)',
+                      border: '3px solid var(--ink-dark)',
+                      boxShadow: '3px 3px 0px var(--ink-dark)',
                       display: 'flex',
                       alignItems: 'center',
                       justify: 'space-between',
@@ -441,14 +403,14 @@ export default function AdminView() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <span style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-muted)', width: '28px' }}>
+                      <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--ink-dark)', width: '32px', fontFamily: 'Fredoka, cursive' }}>
                         #{item.sequence_order}
                       </span>
                       <div>
-                        <h4 style={{ fontSize: '1rem', fontWeight: 700, color: isActive ? 'var(--accent-cyan)' : 'var(--text-main)' }}>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
                           {item.name}
                         </h4>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                           {item.artist || 'Classic Masterpiece'}
                         </span>
                       </div>
@@ -456,12 +418,14 @@ export default function AdminView() {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <span style={{
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        padding: '0.2rem 0.6rem',
+                        fontSize: '0.8rem',
+                        fontWeight: 800,
+                        padding: '0.25rem 0.75rem',
                         borderRadius: '12px',
-                        backgroundColor: item.status === 'active' ? 'var(--accent-cyan)22' : item.status === 'completed' ? 'var(--accent-green)22' : 'rgba(255,255,255,0.08)',
-                        color: item.status === 'active' ? 'var(--accent-cyan)' : item.status === 'completed' ? 'var(--accent-green)' : 'var(--text-muted)'
+                        border: '2px solid var(--ink-dark)',
+                        backgroundColor: item.status === 'active' ? 'var(--pop-cyan)' : item.status === 'completed' ? 'var(--pop-green)' : '#ffffff',
+                        color: 'var(--ink-dark)',
+                        fontFamily: 'Fredoka, cursive'
                       }}>
                         {item.status.toUpperCase()}
                       </span>
@@ -469,33 +433,25 @@ export default function AdminView() {
                       {!isActive && (
                         <button
                           onClick={() => handleSetActivePainting(item.id, item.name)}
-                          style={{
-                            padding: '0.4rem 0.75rem',
-                            fontSize: '0.8rem',
-                            fontWeight: 600,
-                            borderRadius: 'var(--radius-sm)',
-                            backgroundColor: 'rgba(56, 189, 248, 0.15)',
-                            color: 'var(--accent-cyan)',
-                            border: '1px solid var(--accent-cyan)44',
-                            cursor: 'pointer'
-                          }}
+                          className="sticker-btn"
+                          style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', backgroundColor: 'var(--pop-blue)', color: '#ffffff' }}
                         >
                           Make Active
                         </button>
                       )}
 
-                      {/* Reorder Buttons */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                         <button
                           disabled={index === 0}
                           onClick={() => handleMoveSequence(index, -1)}
                           style={{
-                            padding: '0.15rem 0.4rem',
-                            fontSize: '0.7rem',
-                            borderRadius: '3px',
-                            backgroundColor: 'var(--bg-card)',
-                            border: '1px solid var(--border-color)',
-                            color: 'var(--text-main)',
+                            padding: '0.2rem 0.5rem',
+                            fontSize: '0.75rem',
+                            fontWeight: 800,
+                            borderRadius: '4px',
+                            backgroundColor: '#ffffff',
+                            border: '2px solid var(--ink-dark)',
+                            color: 'var(--ink-dark)',
                             cursor: index === 0 ? 'not-allowed' : 'pointer',
                             opacity: index === 0 ? 0.3 : 1
                           }}
@@ -506,12 +462,13 @@ export default function AdminView() {
                           disabled={index === sequence.length - 1}
                           onClick={() => handleMoveSequence(index, 1)}
                           style={{
-                            padding: '0.15rem 0.4rem',
-                            fontSize: '0.7rem',
-                            borderRadius: '3px',
-                            backgroundColor: 'var(--bg-card)',
-                            border: '1px solid var(--border-color)',
-                            color: 'var(--text-main)',
+                            padding: '0.2rem 0.5rem',
+                            fontSize: '0.75rem',
+                            fontWeight: 800,
+                            borderRadius: '4px',
+                            backgroundColor: '#ffffff',
+                            border: '2px solid var(--ink-dark)',
+                            color: 'var(--ink-dark)',
                             cursor: index === sequence.length - 1 ? 'not-allowed' : 'pointer',
                             opacity: index === sequence.length - 1 ? 0.3 : 1
                           }}

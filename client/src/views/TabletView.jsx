@@ -5,7 +5,6 @@ import ColorPalette from '../components/ColorPalette';
 import NotionAvatar, { NotionAvatarPicker } from '../components/NotionAvatar';
 
 export default function TabletView({ tabletId = 'A' }) {
-  // State: 'onboarding' | 'drawing' | 'waiting'
   const [mode, setMode] = useState('onboarding');
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('coder');
@@ -19,7 +18,6 @@ export default function TabletView({ tabletId = 'A' }) {
 
   const lastSyncedGridRef = useRef(null);
 
-  // Fetch active painting metadata on mount
   useEffect(() => {
     fetchActivePainting();
   }, [tabletId]);
@@ -97,8 +95,7 @@ export default function TabletView({ tabletId = 'A' }) {
       }
 
       setAssignedFrame(data.frame);
-      // Initialize pixel grid from frame or empty 16x16
-      const initialGrid = data.frame.pixel_grid || Array.from({ length: 16 }, () => Array(16).fill(null));
+      const initialGrid = data.frame.pixel_grid || Array.from({ length: 24 }, () => Array(24).fill(null));
       setPixelGrid(initialGrid);
       lastSyncedGridRef.current = JSON.stringify(initialGrid);
       setMode('drawing');
@@ -109,7 +106,6 @@ export default function TabletView({ tabletId = 'A' }) {
     }
   };
 
-  // Handle local cell painting
   const handlePixelChange = (r, c, color) => {
     if (!pixelGrid) return;
     setPixelGrid(prev => {
@@ -119,15 +115,13 @@ export default function TabletView({ tabletId = 'A' }) {
     });
   };
 
-  // Clear Frame Action
   const handleClearFrame = () => {
     if (window.confirm('Are you sure you want to clear your painted pixels for this frame?')) {
-      const emptyGrid = Array.from({ length: 16 }, () => Array(16).fill(null));
+      const emptyGrid = Array.from({ length: 24 }, () => Array(24).fill(null));
       setPixelGrid(emptyGrid);
     }
   };
 
-  // Submit Frame Action
   const handleSubmitFrame = async () => {
     if (!assignedFrame) return;
     if (!window.confirm('Ready to submit and lock your frame contribution?')) return;
@@ -149,10 +143,9 @@ export default function TabletView({ tabletId = 'A' }) {
         setCelebrationMsg(
           data.painting_completed
             ? `🎉 Painting Complete! You helped finish "${activePainting?.name || 'the painting'}"!`
-            : `✨ Frame #${assignedFrame.frame_number} Submitted! Thank you, ${name}!`
+            : `✨ Frame #${assignedFrame.frame_number} Locked! High five, ${name}! ✋`
         );
 
-        // Reset local session state after brief celebratory pause
         setTimeout(() => {
           setCelebrationMsg(null);
           setName('');
@@ -172,7 +165,7 @@ export default function TabletView({ tabletId = 'A' }) {
   };
 
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '960px', margin: '0 auto' }}>
+    <div style={{ padding: '1.25rem', maxWidth: '980px', margin: '0 auto' }}>
       <Navbar
         title={`Tablet ${tabletId}`}
         subtitle={mode === 'onboarding' ? 'Participant Onboarding' : `Frame #${assignedFrame?.frame_number || ''}`}
@@ -182,40 +175,42 @@ export default function TabletView({ tabletId = 'A' }) {
 
       {/* Celebratory Banner Modal */}
       {celebrationMsg && (
-        <div className="glass-panel animate-pulse-glow" style={{
+        <div className="sticker-card animate-pop-in" style={{
           padding: '2rem',
-          borderRadius: 'var(--radius-xl)',
           textAlign: 'center',
-          backgroundColor: 'rgba(34, 197, 94, 0.15)',
-          border: '2px solid var(--accent-green)',
+          backgroundColor: 'var(--pop-yellow)',
+          border: '4px solid var(--ink-dark)',
+          boxShadow: '6px 6px 0px var(--ink-dark)',
           marginBottom: '2rem'
         }}>
-          <h2 style={{ fontSize: '1.6rem', color: 'var(--accent-green)', fontWeight: 800 }}>
+          <h2 style={{ fontSize: '1.8rem', color: 'var(--ink-dark)', fontWeight: 800 }}>
             {celebrationMsg}
           </h2>
-          <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-            Preparing tablet interface for next participant...
+          <p style={{ color: 'var(--ink-dark)', marginTop: '0.5rem', fontWeight: 600 }}>
+            Resetting tablet for the next creator... 🎨
           </p>
         </div>
       )}
 
       {/* Mode 1: Participant Onboarding */}
       {mode === 'onboarding' && (
-        <div className="glass-card" style={{ padding: '2rem', maxWidth: '640px', margin: '0 auto' }}>
+        <div className="sticker-card tilt-slight animate-pop-in" style={{ padding: '2.5rem', maxWidth: '640px', margin: '0 auto', position: 'relative' }}>
+          <div className="pushpin" style={{ left: '50%' }} />
+
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-main)' }}>
-              Welcome to the FOSS Pixel Canvas!
+            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+              Join the FOSS Masterpiece! 🎨
             </h2>
-            <p style={{ color: 'var(--text-muted)', marginTop: '0.35rem', fontSize: '0.95rem' }}>
-              Enter your name to color your assigned section of the famous painting.
+            <p style={{ color: 'var(--text-muted)', marginTop: '0.35rem', fontSize: '1rem', fontWeight: 600 }}>
+              Enter your name & pick your sticker avatar to color your frame.
             </p>
           </div>
 
           <form onSubmit={handleStartPainting} style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             {/* Name Input */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
-                Your Name / Handle
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+                Your Name / Handle ✍️
               </label>
               <input
                 type="text"
@@ -226,13 +221,14 @@ export default function TabletView({ tabletId = 'A' }) {
                 required
                 style={{
                   width: '100%',
-                  padding: '0.85rem 1.15rem',
-                  fontSize: '1.1rem',
-                  fontWeight: 600,
+                  padding: '0.9rem 1.15rem',
+                  fontSize: '1.15rem',
+                  fontWeight: 700,
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--bg-dark)',
-                  color: 'var(--text-main)',
-                  border: '2px solid var(--border-color)',
+                  backgroundColor: '#ffffff',
+                  color: 'var(--ink-dark)',
+                  border: '3px solid var(--ink-dark)',
+                  boxShadow: '3px 3px 0px var(--ink-dark)',
                   outline: 'none'
                 }}
               />
@@ -244,7 +240,7 @@ export default function TabletView({ tabletId = 'A' }) {
             </div>
 
             {errorMsg && (
-              <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(239, 68, 68, 0.15)', border: '1px solid var(--accent-red)', color: 'var(--accent-red)', fontSize: '0.875rem', textAlign: 'center' }}>
+              <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--pop-red)', border: '2px solid var(--ink-dark)', color: '#ffffff', fontWeight: 700, textAlign: 'center' }}>
                 {errorMsg}
               </div>
             )}
@@ -252,21 +248,15 @@ export default function TabletView({ tabletId = 'A' }) {
             <button
               type="submit"
               disabled={loading}
+              className="sticker-btn"
               style={{
                 width: '100%',
-                padding: '1rem',
-                fontSize: '1.1rem',
-                fontWeight: 800,
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--accent-cyan)',
-                color: '#090d16',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: 'var(--shadow-glow)',
-                transition: 'transform 0.15s ease'
+                padding: '1.1rem',
+                fontSize: '1.2rem',
+                backgroundColor: 'var(--pop-yellow)'
               }}
             >
-              {loading ? 'Starting Session...' : 'Start Painting →'}
+              {loading ? 'Claiming Frame...' : 'Start Painting Frame →'}
             </button>
           </form>
         </div>
@@ -276,13 +266,13 @@ export default function TabletView({ tabletId = 'A' }) {
       {mode === 'drawing' && assignedFrame && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'start' }}>
           {/* Left Column: Pixel Canvas Grid */}
-          <div className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between', width: '100%', marginBottom: '1rem' }}>
+          <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <NotionAvatar avatarId={avatar} name={name} size={42} />
+                <NotionAvatar avatarId={avatar} name={name} size={48} />
                 <div>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: 700 }}>{name}</h3>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800 }}>{name}</h3>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', fontWeight: 800, fontFamily: 'Fredoka, cursive' }}>
                     Tablet {tabletId} • Frame #{assignedFrame.frame_number}
                   </span>
                 </div>
@@ -290,18 +280,15 @@ export default function TabletView({ tabletId = 'A' }) {
 
               <button
                 onClick={handleClearFrame}
+                className="sticker-btn"
                 style={{
-                  padding: '0.4rem 0.75rem',
+                  padding: '0.4rem 0.8rem',
                   fontSize: '0.8rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                  color: 'var(--accent-red)',
-                  border: '1px solid var(--accent-red)44',
-                  cursor: 'pointer'
+                  backgroundColor: 'var(--pop-red)',
+                  color: '#ffffff'
                 }}
               >
-                Clear Frame
+                Clear Grid
               </button>
             </div>
 
@@ -315,40 +302,35 @@ export default function TabletView({ tabletId = 'A' }) {
               frameNumber={assignedFrame.frame_number}
             />
 
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.85rem', textAlign: 'center' }}>
-              💡 <em>Tap or drag finger across grid tiles to paint. Faint background outline shows reference artwork.</em>
+            <p style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', marginTop: '0.85rem', textAlign: 'center', fontWeight: 600 }}>
+              ✏️ <em>Tap or drag finger across grid tiles to paint pixels!</em>
             </p>
           </div>
 
           {/* Right Column: Palette & Submit Controls */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div className="glass-card" style={{ padding: '1.5rem' }}>
+            <div className="sticker-card" style={{ padding: '1.5rem' }}>
               <ColorPalette selectedColor={selectedColor} onSelectColor={setSelectedColor} />
             </div>
 
-            <div className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-main)' }}>
-                Finish Contribution
+            <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+                Lock Your Contribution 🚀
               </h4>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                 Once satisfied with your coloring, tap Submit to lock your frame into the master painting display!
               </p>
 
               <button
                 onClick={handleSubmitFrame}
                 disabled={loading}
+                className="sticker-btn"
                 style={{
                   width: '100%',
-                  padding: '1rem',
-                  fontSize: '1.1rem',
-                  fontWeight: 800,
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--accent-green)',
-                  color: '#090d16',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: '0 0 20px rgba(34, 197, 94, 0.3)',
-                  transition: 'transform 0.15s ease'
+                  padding: '1.1rem',
+                  fontSize: '1.15rem',
+                  backgroundColor: 'var(--pop-green)',
+                  color: '#ffffff'
                 }}
               >
                 {loading ? 'Locking Frame...' : '✓ Submit & Lock Frame'}
@@ -358,13 +340,13 @@ export default function TabletView({ tabletId = 'A' }) {
         </div>
       )}
 
-      {/* Waiting Mode (if all frames for this tablet are complete) */}
+      {/* Waiting Mode */}
       {mode === 'waiting' && (
-        <div className="glass-card" style={{ padding: '2.5rem', textAlign: 'center', maxWidth: '560px', margin: '0 auto' }}>
-          <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent-gold)', marginBottom: '0.75rem' }}>
+        <div className="sticker-card tilt-slight" style={{ padding: '2.5rem', textAlign: 'center', maxWidth: '560px', margin: '0 auto' }}>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '0.75rem' }}>
             🎨 Tablet {tabletId} Frames Complete!
           </h3>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontWeight: 600 }}>
             {errorMsg || `All 3 frames assigned to Tablet ${tabletId} for "${activePainting?.name}" have been completed! Waiting for the other tablet to finish...`}
           </p>
           <button
@@ -373,16 +355,8 @@ export default function TabletView({ tabletId = 'A' }) {
               setErrorMsg('');
               fetchActivePainting();
             }}
-            style={{
-              padding: '0.75rem 1.5rem',
-              fontSize: '1rem',
-              fontWeight: 700,
-              borderRadius: 'var(--radius-md)',
-              backgroundColor: 'var(--accent-cyan)',
-              color: '#090d16',
-              border: 'none',
-              cursor: 'pointer'
-            }}
+            className="sticker-btn"
+            style={{ backgroundColor: 'var(--pop-blue)', color: '#ffffff' }}
           >
             Check Active Painting Status 🔄
           </button>
