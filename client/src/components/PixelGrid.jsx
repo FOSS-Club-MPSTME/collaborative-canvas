@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 /**
- * 16x16 Interactive Pixel Grid Component
+ * 24x24 Interactive Pixel Grid Component
  */
 export default function PixelGrid({
   pixelGrid,
@@ -9,15 +9,15 @@ export default function PixelGrid({
   selectedColor = '#3b82f6',
   onPixelChange,
   readOnly = false,
-  gridSize = 16,
-  cellSize = 24,
+  gridSize = 24,
+  cellSize = 16,
   showGuides = true,
   frameNumber = null
 }) {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const gridRef = useRef(null);
 
-  // Initialize empty grid fallback
+  // Initialize empty grid fallback for 24x24
   const grid = pixelGrid || Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
   const guides = guideData || Array.from({ length: gridSize }, () => Array(gridSize).fill(null));
 
@@ -30,7 +30,7 @@ export default function PixelGrid({
 
   const handleCellPaint = (r, c) => {
     if (readOnly || !onPixelChange) return;
-    if (grid[r][c] !== selectedColor) {
+    if (grid[r] && grid[r][c] !== selectedColor) {
       onPixelChange(r, c, selectedColor);
     }
   };
@@ -48,7 +48,7 @@ export default function PixelGrid({
     }
   };
 
-  // Touch drag tracking over 16x16 grid elements
+  // Touch drag tracking over grid elements
   const handleTouchMove = (e) => {
     if (readOnly || !onPixelChange) return;
     const touch = e.touches[0];
@@ -65,7 +65,7 @@ export default function PixelGrid({
   };
 
   return (
-    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
       {frameNumber && (
         <div style={{
           fontSize: '0.8rem',
@@ -78,7 +78,7 @@ export default function PixelGrid({
           gap: '0.4rem'
         }}>
           <span>Frame #{frameNumber}</span>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(16×16 Grid)</span>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>(24×24 Grid)</span>
         </div>
       )}
 
@@ -119,22 +119,20 @@ export default function PixelGrid({
                   height: `${cellSize}px`,
                   backgroundColor: isPainted ? cellColor : (showGuides && guideColor ? guideColor : '#0f172a'),
                   opacity: isPainted ? 1 : (showGuides && guideColor ? 0.35 : 1),
-                  borderRadius: '2px',
+                  borderRadius: '1px',
                   cursor: readOnly ? 'default' : 'crosshair',
                   transition: 'background-color 0.05s ease, opacity 0.1s ease',
-                  boxShadow: isPainted ? 'inset 0 0 2px rgba(0,0,0,0.3)' : 'none',
                   position: 'relative'
                 }}
               >
-                {/* Faint outline dot indicator for unpainted guide pixels */}
                 {!isPainted && showGuides && guideColor && (
                   <div style={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '3px',
-                    height: '3px',
+                    width: '2px',
+                    height: '2px',
                     borderRadius: '50%',
                     backgroundColor: guideColor,
                     opacity: 0.8
@@ -150,10 +148,9 @@ export default function PixelGrid({
 }
 
 /**
- * Composite Multi-Frame Canvas (Renders full painting from 6 frames: 2 rows x 3 cols)
+ * Composite Multi-Frame Canvas (Renders full painting from 6 frames: 2 rows x 3 cols of 24x24 = 48x72)
  */
-export function MultiFrameCanvas({ frames, cellSize = 14, showGuides = true }) {
-  // Sort frames 1 to 6
+export function MultiFrameCanvas({ frames, cellSize = 12, showGuides = true }) {
   const sortedFrames = Array.from({ length: 6 }).map((_, idx) => {
     const frameNum = idx + 1;
     return frames?.find(f => f.frame_number === frameNum) || null;
@@ -178,6 +175,7 @@ export function MultiFrameCanvas({ frames, cellSize = 14, showGuides = true }) {
           pixelGrid={frame?.pixel_grid}
           guideData={frame?.guide_data}
           readOnly={true}
+          gridSize={24}
           cellSize={cellSize}
           showGuides={showGuides}
         />

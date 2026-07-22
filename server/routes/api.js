@@ -171,11 +171,11 @@ router.post('/update-pixels-batch', (req, res) => {
     } else if (Array.isArray(pixel_updates)) {
       const currentGrid = frame.pixel_grid 
         ? JSON.parse(frame.pixel_grid) 
-        : Array.from({ length: 16 }, () => Array(16).fill(null));
+        : Array.from({ length: 24 }, () => Array(24).fill(null));
 
       for (const update of pixel_updates) {
         const { row, col, color } = update;
-        if (row >= 0 && row < 16 && col >= 0 && col < 16) {
+        if (row >= 0 && row < 24 && col >= 0 && col < 24) {
           currentGrid[row][col] = color;
         }
       }

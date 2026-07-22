@@ -30,7 +30,6 @@ function quantizeRGBToPalette(r, g, b) {
   let minDistance = Infinity;
 
   for (const item of MASTER_PALETTE) {
-    // Perceptual weighted Euclidean distance
     const dist = Math.sqrt(
       0.30 * Math.pow(r - item.r, 2) +
       0.59 * Math.pow(g - item.g, 2) +
@@ -46,9 +45,10 @@ function quantizeRGBToPalette(r, g, b) {
 }
 
 /**
- * Downsamples & quantizes a real image file using Sharp into a 32x48 pixel grid
+ * Downsamples & quantizes a real image file using Sharp into a 48x72 pixel grid
+ * (2 rows of 24 x 3 columns of 24 = 6 frames of 24x24 = 3,456 total pixels)
  */
-async function processImageFileToMatrix(imagePath, targetRows = 32, targetCols = 48) {
+async function processImageFileToMatrix(imagePath, targetRows = 48, targetCols = 72) {
   const { data, info } = await sharp(imagePath)
     .resize(targetCols, targetRows, { fit: 'cover' })
     .raw()
@@ -71,15 +71,15 @@ async function processImageFileToMatrix(imagePath, targetRows = 32, targetCols =
 }
 
 /**
- * Procedural High-Fidelity Fallback Generator
+ * Procedural High-Fidelity Fallback Generator for 48x72 resolution
  */
 function generatePresetPaintingMatrix(presetName) {
-  const matrix = Array.from({ length: 32 }, () => Array(48).fill('#1a1b26'));
+  const matrix = Array.from({ length: 48 }, () => Array(72).fill('#1a1b26'));
 
-  for (let r = 0; r < 32; r++) {
-    for (let c = 0; c < 48; c++) {
-      const normY = r / 32;
-      const normX = c / 48;
+  for (let r = 0; r < 48; r++) {
+    for (let c = 0; c < 72; c++) {
+      const normY = r / 48;
+      const normX = c / 72;
 
       if (presetName === 'Starry Night') {
         if (normX < 0.22 && normY > 0.15) {
@@ -89,16 +89,16 @@ function generatePresetPaintingMatrix(presetName) {
           const distStar1 = Math.hypot(normX - 0.42, normY - 0.35);
           const distStar2 = Math.hypot(normX - 0.28, normY - 0.18);
           if (distMoon < 0.10 || distStar1 < 0.07 || distStar2 < 0.06) {
-            matrix[r][c] = '#f59e0b'; // Moon & stars
+            matrix[r][c] = '#f59e0b';
           } else if (Math.sin(normX * 14 + normY * 10) > 0.15) {
-            matrix[r][c] = '#3b82f6'; // Azure swirls
+            matrix[r][c] = '#3b82f6';
           } else if (Math.cos(normX * 9 - normY * 12) > 0.35) {
-            matrix[r][c] = '#8b5cf6'; // Twilight violet
+            matrix[r][c] = '#8b5cf6';
           } else {
-            matrix[r][c] = '#1e3a8a'; // Deep starry navy
+            matrix[r][c] = '#1e3a8a';
           }
         } else {
-          matrix[r][c] = (c % 3 === 0 && r > 23) ? '#ca8a04' : '#1a1b26'; // Village
+          matrix[r][c] = (c % 3 === 0 && r > 34) ? '#ca8a04' : '#1a1b26';
         }
 
       } else if (presetName === 'The Great Wave off Kanagawa') {
@@ -106,37 +106,37 @@ function generatePresetPaintingMatrix(presetName) {
         const fujiDist = Math.hypot(normX - 0.58, normY - 0.72);
 
         if (fujiDist < 0.11 && normY < 0.76) {
-          matrix[r][c] = (normY < 0.68) ? '#f3f4f6' : '#78350f'; // Fuji
+          matrix[r][c] = (normY < 0.68) ? '#f3f4f6' : '#78350f';
         } else if (normY < waveHeight - 0.09) {
-          matrix[r][c] = '#06b6d4'; // Cyan sky
+          matrix[r][c] = '#06b6d4';
         } else if (normY < waveHeight) {
-          matrix[r][c] = '#f3f4f6'; // Foam crests
+          matrix[r][c] = '#f3f4f6';
         } else {
-          matrix[r][c] = (Math.sin(normX * 16 + normY * 12) > 0) ? '#1e3a8a' : '#3b82f6'; // Ocean wave
+          matrix[r][c] = (Math.sin(normX * 16 + normY * 12) > 0) ? '#1e3a8a' : '#3b82f6';
         }
 
       } else if (presetName === 'The Kiss (Gustav Klimt)') {
         if (normY > 0.82) {
-          matrix[r][c] = (c % 2 === 0) ? '#ec4899' : '#15803d'; // Flower meadow
+          matrix[r][c] = (c % 2 === 0) ? '#ec4899' : '#15803d';
         } else if (normX > 0.28 && normX < 0.72 && normY > 0.12 && normY < 0.82) {
           if ((r + c) % 3 === 0) matrix[r][c] = '#ca8a04';
           else if ((r * c) % 5 === 0) matrix[r][c] = '#f59e0b';
           else if (r % 4 === 0) matrix[r][c] = '#ef4444';
           else matrix[r][c] = '#78350f';
         } else {
-          matrix[r][c] = '#8b5cf6'; // Golden background
+          matrix[r][c] = '#8b5cf6';
         }
 
       } else if (presetName === 'Girl with a Pearl Earring') {
         const earDist = Math.hypot(normX - 0.44, normY - 0.54);
         if (earDist < 0.045) {
-          matrix[r][c] = '#f3f4f6'; // Pearl
+          matrix[r][c] = '#f3f4f6';
         } else if (normY < 0.36 && normX > 0.25 && normX < 0.75) {
-          matrix[r][c] = (normX < 0.5) ? '#1e3a8a' : '#f59e0b'; // Turban
+          matrix[r][c] = (normX < 0.5) ? '#1e3a8a' : '#f59e0b';
         } else if (normX > 0.32 && normX < 0.68 && normY >= 0.36 && normY < 0.82) {
-          matrix[r][c] = '#78350f'; // Silhouette
+          matrix[r][c] = '#78350f';
         } else {
-          matrix[r][c] = '#1a1b26'; // Dark background
+          matrix[r][c] = '#1a1b26';
         }
 
       } else if (presetName === 'Mona Lisa') {
@@ -155,24 +155,24 @@ function generatePresetPaintingMatrix(presetName) {
 }
 
 /**
- * Splits master matrix into 6 frames of 16x16
+ * Splits a 48x72 master matrix into 6 frames of 24x24
  */
 function extractFramesFromMatrix(masterMatrix) {
   const frames = [];
   const frameCoords = [
     { num: 1, rowStart: 0, colStart: 0 },
-    { num: 2, rowStart: 0, colStart: 16 },
-    { num: 3, rowStart: 0, colStart: 32 },
-    { num: 4, rowStart: 16, colStart: 0 },
-    { num: 5, rowStart: 16, colStart: 16 },
-    { num: 6, rowStart: 16, colStart: 32 }
+    { num: 2, rowStart: 0, colStart: 24 },
+    { num: 3, rowStart: 0, colStart: 48 },
+    { num: 4, rowStart: 24, colStart: 0 },
+    { num: 5, rowStart: 24, colStart: 24 },
+    { num: 6, rowStart: 24, colStart: 48 }
   ];
 
   for (const fc of frameCoords) {
     const grid = [];
-    for (let r = 0; r < 16; r++) {
+    for (let r = 0; r < 24; r++) {
       const row = [];
-      for (let c = 0; c < 16; c++) {
+      for (let c = 0; c < 24; c++) {
         row.push(masterMatrix[fc.rowStart + r][fc.colStart + c]);
       }
       grid.push(row);
@@ -187,7 +187,7 @@ function extractFramesFromMatrix(masterMatrix) {
 }
 
 async function preprocessAndSeed() {
-  console.log('Starting artwork preprocessing and database seeding...');
+  console.log('Starting 24×24 resolution artwork preprocessing and database seeding...');
 
   const assetsDir = path.join(__dirname, '../../assets/source_paintings');
   if (!fs.existsSync(assetsDir)) {
@@ -224,8 +224,8 @@ async function preprocessAndSeed() {
     let masterMatrix;
 
     if (fs.existsSync(imageFilePath)) {
-      console.log(`📷 Found local source image for "${item.name}" at assets/source_paintings/${item.filename}`);
-      masterMatrix = await processImageFileToMatrix(imageFilePath, 32, 48);
+      console.log(`📷 Downsampling real source image for "${item.name}" into 48x72 grid (6 frames x 24x24)`);
+      masterMatrix = await processImageFileToMatrix(imageFilePath, 48, 72);
     } else {
       masterMatrix = generatePresetPaintingMatrix(item.name);
     }
@@ -239,11 +239,11 @@ async function preprocessAndSeed() {
       insertFrameStmt.run(paintingId, frame.frame_number, frame.guide_data, null);
     }
 
-    console.log(`✓ Seeded painting #${item.sequence_order}: "${item.name}" (Status: ${status}, 6 frames created)`);
+    console.log(`✓ Seeded 24×24 painting #${item.sequence_order}: "${item.name}" (Status: ${status}, 6 frames created)`);
   }
 
   console.log('\n====================================================');
-  console.log(' Artwork Preprocessing & Database Seeding Complete!');
+  console.log(' 24×24 Frame Artwork Preprocessing Complete! 🎉');
   console.log('====================================================\n');
 }
 

@@ -310,7 +310,8 @@ export default function TabletView({ tabletId = 'A' }) {
               guideData={assignedFrame.guide_data}
               selectedColor={selectedColor}
               onPixelChange={handlePixelChange}
-              cellSize={22}
+              gridSize={24}
+              cellSize={16}
               frameNumber={assignedFrame.frame_number}
             />
 

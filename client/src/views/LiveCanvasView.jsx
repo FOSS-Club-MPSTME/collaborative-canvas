@@ -132,7 +132,7 @@ export default function LiveCanvasView() {
 
           {/* Master 6-Frame Assembled Painting (32×48 Resolution Matrix) */}
           <div style={{ margin: '1rem 0' }}>
-            <MultiFrameCanvas frames={frames} cellSize={18} showGuides={true} />
+            <MultiFrameCanvas frames={frames} cellSize={14} showGuides={true} />
           </div>
 
           {/* FOSS Tagline */}

@@ -52,7 +52,7 @@ async function runApiTests() {
 
     // 3. Update Pixels Batch
     console.log('\n--- 3. Testing POST /api/update-pixels-batch ---');
-    const dummyGrid = Array.from({ length: 16 }, () => Array(16).fill('#3b82f6'));
+    const dummyGrid = Array.from({ length: 24 }, () => Array(24).fill('#3b82f6'));
     const updateRes = await fetch(`${BASE_URL}/api/update-pixels-batch`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
