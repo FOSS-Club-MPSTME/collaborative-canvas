@@ -41,47 +41,46 @@ export default function CurrentDrawersView() {
       />
 
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
           👥 Who is Painting Right Now?
         </h2>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', fontWeight: 600, marginTop: '0.25rem' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: 500, marginTop: '0.25rem' }}>
           Live participants contributing to the active collaborative artwork.
         </p>
       </div>
 
       {loading && !drawersData ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
-          <h2 style={{ fontFamily: 'Fredoka, cursive' }}>Connecting to Current Drawers Feed... 🎨</h2>
+          <h2 style={{ fontFamily: 'Pixelify Sans, monospace', color: 'var(--foss-green)' }}>Connecting to Current Drawers Feed... 🎨</h2>
         </div>
       ) : errorMsg ? (
-        <div className="sticker-card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--pop-red)' }}>
-          <h3>⚠️ {errorMsg}</h3>
+        <div className="sticker-card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--pop-red)', backgroundColor: '#161b22', border: '1px solid var(--pop-red)' }}>
+          <h3 style={{ fontFamily: 'Pixelify Sans, monospace' }}>⚠️ {errorMsg}</h3>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '2.5rem', marginBottom: '3rem' }}>
           {/* Tablet A Sticker Tile */}
-          <DrawerTile tabletId="A" drawer={tabletA} accentColor="var(--pop-cyan)" tiltClass="tilt-left" />
+          <DrawerTile tabletId="A" drawer={tabletA} accentColor="var(--pop-cyan)" />
 
           {/* Tablet B Sticker Tile */}
-          <DrawerTile tabletId="B" drawer={tabletB} accentColor="var(--pop-pink)" tiltClass="tilt-right" />
+          <DrawerTile tabletId="B" drawer={tabletB} accentColor="var(--pop-pink)" />
         </div>
       )}
 
       {/* FOSS Open Source Metaphor Banner */}
-      <div className="sticker-card tilt-slight" style={{
+      <div className="sticker-card" style={{
         padding: '2rem',
         textAlign: 'center',
         maxWidth: '860px',
         margin: '0 auto',
-        backgroundColor: 'var(--pop-yellow)',
-        position: 'relative'
+        backgroundColor: '#161b22',
+        border: '1px solid var(--pop-green)',
+        boxShadow: '0 0 16px rgba(0, 255, 102, 0.2)'
       }}>
-        <div className="pushpin" style={{ left: '50%' }} />
-
-        <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '0.5rem' }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--foss-green)', marginBottom: '0.5rem', fontFamily: 'Pixelify Sans, monospace' }}>
           💡 The FOSS Collaboration Metaphor
         </h3>
-        <p style={{ fontSize: '1rem', color: 'var(--ink-dark)', fontWeight: 600, lineHeight: '1.6' }}>
+        <p style={{ fontSize: '0.95rem', color: 'var(--ink-dark)', fontWeight: 500, lineHeight: '1.6' }}>
           Just like open-source software, individual contributions — each owned, created, and credited by name — combine together into one shared, meaningful master artifact.
         </p>
       </div>
@@ -89,12 +88,12 @@ export default function CurrentDrawersView() {
   );
 }
 
-function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
+function DrawerTile({ tabletId, drawer, accentColor }) {
   const isActive = drawer && drawer.active;
 
   return (
     <div
-      className={`sticker-card ${tiltClass}`}
+      className="sticker-card"
       style={{
         padding: '2.25rem',
         display: 'flex',
@@ -104,25 +103,24 @@ function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
         position: 'relative',
         minHeight: '360px',
         justifyContent: 'center',
-        backgroundColor: isActive ? '#ffffff' : 'var(--cork-card)'
+        backgroundColor: '#161b22',
+        border: isActive ? '2px solid var(--pop-green)' : '1px solid #30363d',
+        boxShadow: isActive ? '0 0 16px rgba(0, 255, 102, 0.25)' : 'none'
       }}
     >
-      <div className="pushpin" style={{ left: '50%' }} />
-
       {/* Tablet Badge */}
       <div style={{
         position: 'absolute',
         top: '1.25rem',
         left: '1.25rem',
-        padding: '0.35rem 0.95rem',
-        borderRadius: '20px',
-        fontSize: '0.85rem',
-        fontWeight: 800,
-        backgroundColor: accentColor,
-        color: 'var(--ink-dark)',
-        border: '2px solid var(--ink-dark)',
-        boxShadow: '2px 2px 0px var(--ink-dark)',
-        fontFamily: 'Fredoka, cursive'
+        padding: '0.3rem 0.85rem',
+        borderRadius: '6px',
+        fontSize: '0.8rem',
+        fontWeight: 700,
+        backgroundColor: 'rgba(22, 27, 34, 0.9)',
+        color: accentColor,
+        border: `1px solid ${accentColor}`,
+        fontFamily: 'Pixelify Sans, monospace'
       }}>
         Tablet {tabletId}
       </div>
@@ -136,7 +134,7 @@ function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
           />
 
           <div>
-            <h3 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+            <h3 style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
               {drawer.participant_name}
             </h3>
             <div style={{
@@ -144,14 +142,14 @@ function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
               alignItems: 'center',
               gap: '0.5rem',
               marginTop: '0.5rem',
-              padding: '0.4rem 0.95rem',
-              borderRadius: 'var(--radius-md)',
-              backgroundColor: 'var(--cork-bg)',
-              border: '2px solid var(--ink-dark)',
-              fontSize: '0.95rem',
-              fontWeight: 800,
-              color: 'var(--ink-dark)',
-              fontFamily: 'Fredoka, cursive'
+              padding: '0.35rem 0.85rem',
+              borderRadius: '6px',
+              backgroundColor: '#0d1117',
+              border: '1px solid #30363d',
+              fontSize: '0.88rem',
+              fontWeight: 700,
+              color: 'var(--foss-green)',
+              fontFamily: 'Pixelify Sans, monospace'
             }}>
               <span>Frame #{drawer.frame_number}</span>
               <span>•</span>
@@ -163,15 +161,15 @@ function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            fontSize: '0.9rem',
-            fontWeight: 800,
-            color: 'var(--ink-dark)',
-            padding: '0.4rem 1rem',
-            borderRadius: '20px',
-            backgroundColor: 'var(--pop-green)',
-            border: '2px solid var(--ink-dark)',
-            boxShadow: '2px 2px 0px var(--ink-dark)',
-            fontFamily: 'Fredoka, cursive'
+            fontSize: '0.85rem',
+            fontWeight: 700,
+            color: 'var(--foss-green)',
+            padding: '0.35rem 0.95rem',
+            borderRadius: '6px',
+            backgroundColor: 'rgba(46, 160, 67, 0.15)',
+            border: '1px solid var(--pop-green)',
+            boxShadow: '0 0 10px rgba(0, 255, 102, 0.2)',
+            fontFamily: 'Pixelify Sans, monospace'
           }}>
             🎨 Active Drawer • Coloring Pixel Grid
           </div>
@@ -182,8 +180,8 @@ function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
             width: '88px',
             height: '88px',
             borderRadius: '50%',
-            backgroundColor: 'var(--cork-bg)',
-            border: '3px dashed var(--ink-dark)',
+            backgroundColor: '#0d1117',
+            border: '2px dashed #30363d',
             display: 'flex',
             alignItems: 'center',
             justify: 'center',
@@ -193,10 +191,10 @@ function DrawerTile({ tabletId, drawer, accentColor, tiltClass }) {
           </div>
 
           <div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+            <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
               Tablet {tabletId} is Free!
             </h3>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: 600, marginTop: '0.25rem' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.25rem' }}>
               Sit down at Tablet {tabletId} to claim your frame and contribute!
             </p>
           </div>

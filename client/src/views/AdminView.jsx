@@ -192,9 +192,10 @@ export default function AdminView() {
         <div className="sticker-card" style={{
           padding: '0.85rem 1.25rem',
           marginBottom: '1.5rem',
-          backgroundColor: statusMsg.type === 'error' ? 'var(--pop-red)' : 'var(--pop-green)',
-          color: '#ffffff',
-          fontWeight: 700,
+          backgroundColor: statusMsg.type === 'error' ? 'rgba(248, 81, 73, 0.15)' : 'rgba(46, 160, 67, 0.15)',
+          border: `1px solid ${statusMsg.type === 'error' ? 'var(--pop-red)' : 'var(--pop-green)'}`,
+          color: statusMsg.type === 'error' ? 'var(--pop-red)' : 'var(--foss-green)',
+          fontWeight: 600,
           display: 'flex',
           justify: 'space-between',
           alignItems: 'center'
@@ -205,14 +206,12 @@ export default function AdminView() {
       )}
 
       {!authenticated ? (
-        <div className="sticker-card tilt-slight" style={{ padding: '2.5rem', maxWidth: '460px', margin: '3rem auto', textAlign: 'center', position: 'relative' }}>
-          <div className="pushpin" style={{ left: '50%' }} />
-
+        <div className="sticker-card" style={{ padding: '2.5rem', maxWidth: '460px', margin: '3rem auto', textAlign: 'center', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔒</div>
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '0.35rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--ink-dark)', marginBottom: '0.35rem', fontFamily: 'Pixelify Sans, monospace' }}>
             Staff Access Required
           </h2>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600, marginBottom: '1.75rem' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1.75rem' }}>
             Enter booth admin passcode to access reset controls.
           </p>
 
@@ -226,17 +225,17 @@ export default function AdminView() {
               autoFocus
               style={{
                 width: '100%',
-                padding: '0.9rem 1rem',
+                padding: '0.85rem 1rem',
                 fontSize: '1.2rem',
                 fontWeight: 700,
                 textAlign: 'center',
                 letterSpacing: '0.2em',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: '#ffffff',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: '#0d1117',
                 color: 'var(--ink-dark)',
-                border: '3px solid var(--ink-dark)',
-                boxShadow: '3px 3px 0px var(--ink-dark)',
-                outline: 'none'
+                border: '2px solid #30363d',
+                outline: 'none',
+                fontFamily: 'JetBrains Mono, monospace'
               }}
             />
 
@@ -247,7 +246,7 @@ export default function AdminView() {
               style={{
                 width: '100%',
                 padding: '1rem',
-                fontSize: '1.15rem',
+                fontSize: '1.1rem',
                 backgroundColor: 'var(--pop-red)',
                 color: '#ffffff'
               }}
@@ -262,13 +261,15 @@ export default function AdminView() {
             padding: '1.25rem 1.5rem',
             display: 'flex',
             justify: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            backgroundColor: '#161b22',
+            border: '1px solid #30363d'
           }}>
             <div>
-              <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--ink-dark)', backgroundColor: 'var(--pop-green)', padding: '0.2rem 0.6rem', borderRadius: '12px', border: '2px solid var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--foss-green)', backgroundColor: 'rgba(46, 160, 67, 0.15)', padding: '0.2rem 0.6rem', borderRadius: '6px', border: '1px solid var(--pop-green)', fontFamily: 'Pixelify Sans, monospace' }}>
                 🟢 Admin Unlocked
               </span>
-              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--ink-dark)', marginTop: '0.2rem' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-dark)', marginTop: '0.3rem', fontFamily: 'Pixelify Sans, monospace' }}>
                 Booth Control Dashboard
               </h2>
             </div>
@@ -277,7 +278,7 @@ export default function AdminView() {
               <button
                 onClick={() => loadAdminData()}
                 className="sticker-btn"
-                style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', backgroundColor: 'var(--pop-yellow)' }}
+                style={{ padding: '0.45rem 0.85rem', fontSize: '0.85rem', backgroundColor: '#21262d', color: 'var(--ink-dark)', borderColor: '#30363d' }}
               >
                 Refresh Data 🔄
               </button>
@@ -293,13 +294,13 @@ export default function AdminView() {
           </div>
 
           {activeData && activeData.painting && (
-            <div className="sticker-card" style={{ padding: '1.75rem' }}>
+            <div className="sticker-card" style={{ padding: '1.75rem', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                 <div>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Active Painting Controls
                   </span>
-                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--ink-dark)', marginTop: '0.1rem' }}>
+                  <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--ink-dark)', marginTop: '0.1rem', fontFamily: 'Pixelify Sans, monospace' }}>
                     {activeData.painting.name} ({activeData.completionPercentage}% Complete)
                   </h3>
                 </div>
@@ -321,28 +322,27 @@ export default function AdminView() {
                       key={frame.id}
                       style={{
                         padding: '1.15rem',
-                        borderRadius: 'var(--radius-md)',
-                        backgroundColor: 'var(--cork-bg)',
-                        border: '3px solid var(--ink-dark)',
-                        boxShadow: '3px 3px 0px var(--ink-dark)',
+                        borderRadius: 'var(--radius-sm)',
+                        backgroundColor: '#0d1117',
+                        border: '1px solid #30363d',
                         display: 'flex',
                         flexDirection: 'column',
                         gap: '0.85rem'
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontWeight: 800, fontSize: '1rem', color: 'var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
+                        <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
                           Frame #{frame.frame_number} <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>(Tablet {tabletAssigned})</span>
                         </span>
                         <span style={{
-                          fontSize: '0.8rem',
-                          fontWeight: 800,
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
                           padding: '0.2rem 0.6rem',
-                          borderRadius: '12px',
-                          border: '2px solid var(--ink-dark)',
-                          backgroundColor: frame.status === 'locked' ? 'var(--pop-green)' : frame.status === 'in_progress' ? 'var(--pop-yellow)' : '#ffffff',
-                          color: 'var(--ink-dark)',
-                          fontFamily: 'Fredoka, cursive'
+                          borderRadius: '4px',
+                          border: `1px solid ${frame.status === 'locked' ? 'var(--pop-green)' : frame.status === 'in_progress' ? 'var(--pop-yellow)' : '#30363d'}`,
+                          backgroundColor: frame.status === 'locked' ? 'rgba(46, 160, 67, 0.15)' : frame.status === 'in_progress' ? 'rgba(210, 153, 34, 0.15)' : '#161b22',
+                          color: frame.status === 'locked' ? 'var(--foss-green)' : frame.status === 'in_progress' ? 'var(--pop-yellow)' : 'var(--text-muted)',
+                          fontFamily: 'Pixelify Sans, monospace'
                         }}>
                           {frame.status.toUpperCase()}
                         </span>
@@ -351,10 +351,10 @@ export default function AdminView() {
                       {frame.owner_name ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                           <NotionAvatar avatarId={frame.owner_avatar} name={frame.owner_name} size={36} />
-                          <span style={{ fontSize: '0.95rem', fontWeight: 800 }}>{frame.owner_name}</span>
+                          <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--ink-dark)' }}>{frame.owner_name}</span>
                         </div>
                       ) : (
-                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                           Unclaimed slot
                         </span>
                       )}
@@ -366,8 +366,9 @@ export default function AdminView() {
                           marginTop: 'auto',
                           padding: '0.35rem 0.6rem',
                           fontSize: '0.8rem',
-                          backgroundColor: 'var(--pop-pink)',
-                          color: '#ffffff'
+                          backgroundColor: 'rgba(219, 97, 162, 0.2)',
+                          color: 'var(--pop-pink)',
+                          borderColor: 'var(--pop-pink)'
                         }}
                       >
                         Reset Frame #{frame.frame_number}
@@ -379,8 +380,8 @@ export default function AdminView() {
             </div>
           )}
 
-          <div className="sticker-card" style={{ padding: '1.75rem' }}>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '1.25rem' }}>
+          <div className="sticker-card" style={{ padding: '1.75rem', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--ink-dark)', marginBottom: '1.25rem', fontFamily: 'Pixelify Sans, monospace' }}>
               📜 Daily Painting Queue Sequence
             </h3>
 
@@ -392,10 +393,9 @@ export default function AdminView() {
                     key={item.id}
                     style={{
                       padding: '1.15rem 1.35rem',
-                      borderRadius: 'var(--radius-md)',
-                      backgroundColor: isActive ? 'var(--pop-yellow)' : 'var(--cork-bg)',
-                      border: '3px solid var(--ink-dark)',
-                      boxShadow: '3px 3px 0px var(--ink-dark)',
+                      borderRadius: 'var(--radius-sm)',
+                      backgroundColor: isActive ? 'rgba(46, 160, 67, 0.12)' : '#0d1117',
+                      border: isActive ? '1px solid var(--pop-green)' : '1px solid #30363d',
                       display: 'flex',
                       alignItems: 'center',
                       justify: 'space-between',
@@ -403,14 +403,14 @@ export default function AdminView() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--ink-dark)', width: '32px', fontFamily: 'Fredoka, cursive' }}>
+                      <span style={{ fontSize: '1.1rem', fontWeight: 700, color: isActive ? 'var(--foss-green)' : 'var(--text-muted)', width: '32px', fontFamily: 'Pixelify Sans, monospace' }}>
                         #{item.sequence_order}
                       </span>
                       <div>
-                        <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+                        <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
                           {item.name}
                         </h4>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                           {item.artist || 'Classic Masterpiece'}
                         </span>
                       </div>
@@ -418,14 +418,14 @@ export default function AdminView() {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <span style={{
-                        fontSize: '0.8rem',
-                        fontWeight: 800,
-                        padding: '0.25rem 0.75rem',
-                        borderRadius: '12px',
-                        border: '2px solid var(--ink-dark)',
-                        backgroundColor: item.status === 'active' ? 'var(--pop-cyan)' : item.status === 'completed' ? 'var(--pop-green)' : '#ffffff',
-                        color: 'var(--ink-dark)',
-                        fontFamily: 'Fredoka, cursive'
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        padding: '0.2rem 0.65rem',
+                        borderRadius: '4px',
+                        border: `1px solid ${item.status === 'active' ? 'var(--pop-green)' : item.status === 'completed' ? 'var(--pop-cyan)' : '#30363d'}`,
+                        backgroundColor: item.status === 'active' ? 'rgba(46, 160, 67, 0.2)' : item.status === 'completed' ? 'rgba(57, 197, 207, 0.15)' : '#161b22',
+                        color: item.status === 'active' ? 'var(--foss-green)' : item.status === 'completed' ? 'var(--pop-cyan)' : 'var(--text-muted)',
+                        fontFamily: 'Pixelify Sans, monospace'
                       }}>
                         {item.status.toUpperCase()}
                       </span>
@@ -434,7 +434,7 @@ export default function AdminView() {
                         <button
                           onClick={() => handleSetActivePainting(item.id, item.name)}
                           className="sticker-btn"
-                          style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', backgroundColor: 'var(--pop-blue)', color: '#ffffff' }}
+                          style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', backgroundColor: '#21262d', color: 'var(--pop-blue)', borderColor: '#30363d' }}
                         >
                           Make Active
                         </button>
@@ -447,10 +447,10 @@ export default function AdminView() {
                           style={{
                             padding: '0.2rem 0.5rem',
                             fontSize: '0.75rem',
-                            fontWeight: 800,
+                            fontWeight: 700,
                             borderRadius: '4px',
-                            backgroundColor: '#ffffff',
-                            border: '2px solid var(--ink-dark)',
+                            backgroundColor: '#161b22',
+                            border: '1px solid #30363d',
                             color: 'var(--ink-dark)',
                             cursor: index === 0 ? 'not-allowed' : 'pointer',
                             opacity: index === 0 ? 0.3 : 1
@@ -464,10 +464,10 @@ export default function AdminView() {
                           style={{
                             padding: '0.2rem 0.5rem',
                             fontSize: '0.75rem',
-                            fontWeight: 800,
+                            fontWeight: 700,
                             borderRadius: '4px',
-                            backgroundColor: '#ffffff',
-                            border: '2px solid var(--ink-dark)',
+                            backgroundColor: '#161b22',
+                            border: '1px solid #30363d',
                             color: 'var(--ink-dark)',
                             cursor: index === sequence.length - 1 ? 'not-allowed' : 'pointer',
                             opacity: index === sequence.length - 1 ? 0.3 : 1

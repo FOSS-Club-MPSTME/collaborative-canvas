@@ -11,7 +11,7 @@ import AdminView from './views/AdminView';
 import './App.css';
 
 function Home() {
-  const [selectedColor, setSelectedColor] = useState('#3b82f6');
+  const [selectedColor, setSelectedColor] = useState('#00ff66');
   const [selectedAvatar, setSelectedAvatar] = useState('coder');
   const [demoGrid, setDemoGrid] = useState(
     Array.from({ length: 24 }, () => Array(24).fill(null))
@@ -31,52 +31,47 @@ function Home() {
 
       {/* Navigation Route Sticker Tiles */}
       <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--foss-green)', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: 'Pixelify Sans, monospace' }}>
           Select Route View 📍
         </h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
-          <Link to="/tablet/a" className="sticker-card tilt-left" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: 'var(--cork-card)' }}>
-            <div className="pushpin" style={{ left: '50%' }} />
+          <Link to="/tablet/a" className="sticker-card" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📱</div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--ink-dark)' }}>Tablet A Interface</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600, marginTop: '0.35rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>Tablet A Interface</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.35rem' }}>
               Participant drawing view for Tablet A (Frames 1, 3, 5)
             </p>
           </Link>
 
-          <Link to="/tablet/b" className="sticker-card tilt-right" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: 'var(--cork-card)' }}>
-            <div className="pushpin" style={{ left: '50%' }} />
+          <Link to="/tablet/b" className="sticker-card" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📱</div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--ink-dark)' }}>Tablet B Interface</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600, marginTop: '0.35rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>Tablet B Interface</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.35rem' }}>
               Participant drawing view for Tablet B (Frames 2, 4, 6)
             </p>
           </Link>
 
-          <Link to="/display/canvas" className="sticker-card tilt-slight" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: 'var(--pop-yellow)' }}>
-            <div className="pushpin" style={{ left: '50%' }} />
+          <Link to="/display/canvas" className="sticker-card" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: '#161b22', border: '1px solid var(--pop-green)' }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🖥️</div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--ink-dark)' }}>Live Canvas Screen</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', fontWeight: 600, marginTop: '0.35rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--foss-green)', fontFamily: 'Pixelify Sans, monospace' }}>Live Canvas Screen</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.35rem' }}>
               Display 1: Real-time assembling master painting & celebration
             </p>
           </Link>
 
-          <Link to="/display/drawers" className="sticker-card tilt-left" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: 'var(--pop-cyan)' }}>
-            <div className="pushpin" style={{ left: '50%' }} />
+          <Link to="/display/drawers" className="sticker-card" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>👥</div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--ink-dark)' }}>Current Drawers Screen</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', fontWeight: 600, marginTop: '0.35rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--pop-cyan)', fontFamily: 'Pixelify Sans, monospace' }}>Current Drawers Screen</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.35rem' }}>
               Display 2: Active participant cards with Notion avatars
             </p>
           </Link>
 
-          <Link to="/admin" className="sticker-card tilt-right" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: 'var(--pop-pink)' }}>
-            <div className="pushpin" style={{ left: '50%' }} />
+          <Link to="/admin" className="sticker-card" style={{ padding: '1.5rem', textDecoration: 'none', color: 'inherit', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
             <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⚙️</div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--ink-dark)' }}>Staff Admin Panel</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', fontWeight: 600, marginTop: '0.35rem' }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--pop-pink)', fontFamily: 'Pixelify Sans, monospace' }}>Staff Admin Panel</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.35rem' }}>
               Passcode protected (`1234`): Frame resets & sequence order
             </p>
           </Link>
@@ -84,17 +79,15 @@ function Home() {
       </section>
 
       {/* Component Design System Interactive Sandbox */}
-      <section className="sticker-card tilt-slight" style={{ padding: '2rem', position: 'relative' }}>
-        <div className="pushpin" style={{ left: '50%' }} />
-
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '1.5rem' }}>
-          🎨 "Corkboard & Scribble" Visual Design Sandbox
+      <section className="sticker-card" style={{ padding: '2rem', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
+        <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--ink-dark)', marginBottom: '1.5rem', fontFamily: 'Pixelify Sans, monospace' }}>
+          🟩 GitHub x Minecraft Visual Design Sandbox
         </h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'start' }}>
           {/* Interactive 24x24 Grid Sandbox */}
-          <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '1rem', fontFamily: 'Fredoka, cursive' }}>
+          <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#0d1117', border: '1px solid #30363d' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--foss-green)', marginBottom: '1rem', fontFamily: 'Pixelify Sans, monospace' }}>
               Interactive 24×24 Pixel Grid (Touch-Drag Enabled)
             </h3>
             <PixelGrid
@@ -122,16 +115,16 @@ function Home() {
 
           {/* Color Palette & Notion Avatar Sandbox */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-            <div className="sticker-card" style={{ padding: '1.5rem' }}>
+            <div className="sticker-card" style={{ padding: '1.5rem', backgroundColor: '#0d1117', border: '1px solid #30363d' }}>
               <ColorPalette selectedColor={selectedColor} onSelectColor={setSelectedColor} />
             </div>
 
-            <div className="sticker-card" style={{ padding: '1.5rem' }}>
+            <div className="sticker-card" style={{ padding: '1.5rem', backgroundColor: '#0d1117', border: '1px solid #30363d' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
                 <NotionAvatar avatarId={selectedAvatar} size={58} />
                 <div>
-                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--ink-dark)' }}>Sticker Avatar Preview</h4>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>Drop custom files in <code>client/public/avatars/</code></p>
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>FOSS Avatar Preview</h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>Drop custom files in <code>client/public/avatars/</code></p>
                 </div>
               </div>
               <NotionAvatarPicker selectedAvatar={selectedAvatar} onSelectAvatar={setSelectedAvatar} />

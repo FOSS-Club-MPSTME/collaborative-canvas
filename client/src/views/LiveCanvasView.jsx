@@ -47,45 +47,44 @@ export default function LiveCanvasView() {
 
       {loading && !paintingState ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
-          <h2 style={{ fontFamily: 'Fredoka, cursive' }}>Connecting to Live Canvas Feed... 🎨</h2>
+          <h2 style={{ fontFamily: 'Pixelify Sans, monospace', color: 'var(--foss-green)' }}>Connecting to Live Canvas Feed... 🎨</h2>
         </div>
       ) : errorMsg ? (
-        <div className="sticker-card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--pop-red)' }}>
-          <h3>⚠️ {errorMsg}</h3>
+        <div className="sticker-card" style={{ padding: '2rem', textAlign: 'center', color: 'var(--pop-red)', backgroundColor: '#161b22', border: '1px solid var(--pop-red)' }}>
+          <h3 style={{ fontFamily: 'Pixelify Sans, monospace' }}>⚠️ {errorMsg}</h3>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.75rem' }}>
           {/* Header Metadata & Progress Bar Card */}
-          <div className="sticker-card tilt-slight" style={{
+          <div className="sticker-card" style={{
             width: '100%',
             padding: '1.75rem 2rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
-            position: 'relative'
+            backgroundColor: '#161b22',
+            border: '1px solid #30363d'
           }}>
-            <div className="pushpin" style={{ left: '50%' }} />
-
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.08em', backgroundColor: 'var(--pop-yellow)', padding: '0.2rem 0.6rem', borderRadius: '12px', border: '2px solid var(--ink-dark)' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--foss-green)', textTransform: 'uppercase', letterSpacing: '0.08em', backgroundColor: 'rgba(46, 160, 67, 0.15)', padding: '0.25rem 0.75rem', borderRadius: '6px', border: '1px solid var(--pop-green)', fontFamily: 'Pixelify Sans, monospace' }}>
                   Painting #{painting?.sequence_order} • Master Artwork
                 </span>
-                <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--ink-dark)', marginTop: '0.35rem' }}>
+                <h2 style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--ink-dark)', marginTop: '0.5rem', fontFamily: 'Pixelify Sans, monospace' }}>
                   {painting?.name || 'Untitled Painting'}
                 </h2>
                 {painting?.artist && (
-                  <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                    Original Masterpiece by <strong>{painting.artist}</strong>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 500, marginTop: '0.2rem' }}>
+                    Original Masterpiece by <strong style={{ color: 'var(--ink-dark)' }}>{painting.artist}</strong>
                   </p>
                 )}
               </div>
 
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '2.8rem', fontWeight: 800, color: 'var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
+                <div style={{ fontSize: '2.6rem', fontWeight: 700, color: 'var(--foss-green)', fontFamily: 'Pixelify Sans, monospace', textShadow: '0 0 10px rgba(0,255,102,0.3)' }}>
                   {completionPercentage}%
                 </div>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 800 }}>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                   {lockedCount} of 6 Frames Locked
                 </span>
               </div>
@@ -94,18 +93,17 @@ export default function LiveCanvasView() {
             {/* Smooth Completion Progress Bar */}
             <div style={{
               width: '100%',
-              height: '18px',
-              backgroundColor: 'var(--cork-bg)',
-              borderRadius: '10px',
+              height: '16px',
+              backgroundColor: '#0d1117',
+              borderRadius: '6px',
               overflow: 'hidden',
-              border: '3px solid var(--ink-dark)',
-              boxShadow: '2px 2px 0px var(--ink-dark)'
+              border: '1px solid #30363d'
             }}>
               <div style={{
                 width: `${completionPercentage}%`,
                 height: '100%',
-                backgroundColor: isCompleted ? 'var(--pop-green)' : 'var(--pop-cyan)',
-                borderRadius: '8px',
+                backgroundColor: isCompleted ? 'var(--foss-green)' : 'var(--pop-green)',
+                boxShadow: '0 0 12px rgba(0, 255, 102, 0.5)',
                 transition: 'width 0.5s ease-in-out'
               }} />
             </div>
@@ -116,15 +114,15 @@ export default function LiveCanvasView() {
             <div className="sticker-card animate-pop-in" style={{
               width: '100%',
               padding: '1.5rem',
-              backgroundColor: 'var(--pop-yellow)',
-              border: '4px solid var(--ink-dark)',
-              boxShadow: '6px 6px 0px var(--ink-dark)',
+              backgroundColor: '#161b22',
+              border: '2px solid var(--pop-green)',
+              boxShadow: '0 0 20px rgba(0, 255, 102, 0.4)',
               textAlign: 'center'
             }}>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+              <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--foss-green)', fontFamily: 'Pixelify Sans, monospace' }}>
                 🎉 Master Painting Complete!
               </h2>
-              <p style={{ fontSize: '0.95rem', color: 'var(--ink-dark)', fontWeight: 600, marginTop: '0.25rem' }}>
+              <p style={{ fontSize: '0.95rem', color: 'var(--ink-dark)', fontWeight: 500, marginTop: '0.25rem' }}>
                 All 6 frames locked! Transitioning to next masterpiece in queue...
               </p>
             </div>
@@ -138,16 +136,17 @@ export default function LiveCanvasView() {
           {/* FOSS Tagline */}
           <footer className="sticker-card" style={{
             padding: '0.85rem 1.5rem',
-            fontSize: '0.95rem',
-            fontWeight: 700,
+            fontSize: '0.9rem',
+            fontWeight: 600,
             color: 'var(--ink-dark)',
             textAlign: 'center',
-            backgroundColor: 'var(--pop-yellow)',
+            backgroundColor: '#161b22',
+            border: '1px solid #30363d',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.6rem'
           }}>
-            🤝 <strong>FOSS Induction Event</strong> — <em>Six individual contributions combined into one shared masterpiece.</em>
+            🟩 <strong style={{ color: 'var(--foss-green)', fontFamily: 'Pixelify Sans, monospace' }}>FOSS Induction Event</strong> — <em>Six individual contributions combined into one shared masterpiece.</em>
           </footer>
         </div>
       )}

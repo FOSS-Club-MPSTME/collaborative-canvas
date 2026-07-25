@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 export const AVATAR_PRESETS = [
-  { id: 'artist', name: 'Artist', emoji: '🎨', bg: '#ff4757', border: '#1e272e' },
-  { id: 'coder', name: 'Coder', emoji: '⚡', bg: '#10ac84', border: '#1e272e' },
-  { id: 'hacker', name: 'Hacker', emoji: '🚀', bg: '#a855f7', border: '#1e272e' },
-  { id: 'designer', name: 'Designer', emoji: '✨', bg: '#ffd32a', border: '#1e272e' },
-  { id: 'dreamer', name: 'Dreamer', emoji: '🌙', bg: '#8b5cf6', border: '#1e272e' },
-  { id: 'thinker', name: 'Thinker', emoji: '🧠', bg: '#00d2d3', border: '#1e272e' },
-  { id: 'creator', name: 'Creator', emoji: '🔥', bg: '#ff5e7e', border: '#1e272e' },
-  { id: 'explorer', name: 'Explorer', emoji: '🧭', bg: '#2e86de', border: '#1e272e' }
+  { id: 'artist', name: 'Artist', emoji: '🎨', bg: '#f85149', border: '#30363d' },
+  { id: 'coder', name: 'Coder', emoji: '⚡', bg: '#2ea043', border: '#30363d' },
+  { id: 'hacker', name: 'Hacker', emoji: '🚀', bg: '#bc8cff', border: '#30363d' },
+  { id: 'designer', name: 'Designer', emoji: '✨', bg: '#d29922', border: '#30363d' },
+  { id: 'dreamer', name: 'Dreamer', emoji: '🌙', bg: '#8b5cf6', border: '#30363d' },
+  { id: 'thinker', name: 'Thinker', emoji: '🧠', bg: '#39c5cf', border: '#30363d' },
+  { id: 'creator', name: 'Creator', emoji: '🔥', bg: '#db61a2', border: '#30363d' },
+  { id: 'explorer', name: 'Explorer', emoji: '🧭', bg: '#58a6ff', border: '#30363d' }
 ];
 
 export function getAvatarByName(name) {
@@ -44,12 +44,12 @@ export function NotionAvatar({ avatarId, name, size = 52, className = '' }) {
         height: `${size}px`,
         borderRadius: '50%',
         backgroundColor: preset.bg,
-        border: '3px solid var(--ink-dark)',
+        border: '2px solid #30363d',
         display: 'inline-flex',
         alignItems: 'center',
         justify: 'center',
         fontSize: `${size * 0.45}px`,
-        boxShadow: '3px 3px 0px var(--ink-dark)',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.6), 0 0 0 1px #30363d',
         userSelect: 'none',
         flexShrink: 0,
         overflow: 'hidden',
@@ -77,13 +77,13 @@ export function NotionAvatar({ avatarId, name, size = 52, className = '' }) {
 export function NotionAvatarPicker({ selectedAvatar, onSelectAvatar }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
-      <span style={{ fontSize: '0.875rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        Pick Your Sticker Avatar 🏷️
+      <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: 'Pixelify Sans, monospace' }}>
+        Pick Your FOSS Avatar 🏷️
       </span>
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '0.75rem'
+        gap: '0.65rem'
       }}>
         {AVATAR_PRESETS.map((preset) => {
           const isSelected = selectedAvatar === preset.id;
@@ -98,17 +98,17 @@ export function NotionAvatarPicker({ selectedAvatar, onSelectAvatar }) {
                 alignItems: 'center',
                 gap: '0.35rem',
                 padding: '0.65rem 0.25rem',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: isSelected ? 'var(--pop-yellow)' : 'var(--cork-card)',
-                border: '3px solid var(--ink-dark)',
-                boxShadow: isSelected ? '4px 4px 0px var(--ink-dark)' : '2px 2px 0px var(--ink-dark)',
-                transform: isSelected ? 'scale(1.05) rotate(-1deg)' : 'scale(1)',
+                borderRadius: '8px',
+                backgroundColor: isSelected ? 'rgba(46, 160, 67, 0.15)' : '#161b22',
+                border: isSelected ? '2px solid var(--pop-green)' : '1px solid #30363d',
+                boxShadow: isSelected ? '0 0 10px rgba(0, 255, 102, 0.3)' : 'none',
+                transform: isSelected ? 'scale(1.04)' : 'scale(1)',
                 cursor: 'pointer',
                 transition: 'all 0.1s ease'
               }}
             >
-              <NotionAvatar avatarId={preset.id} size={42} />
-              <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--ink-dark)', fontFamily: 'Fredoka, cursive' }}>
+              <NotionAvatar avatarId={preset.id} size={40} />
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: isSelected ? 'var(--foss-green)' : 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
                 {preset.name}
               </span>
             </button>

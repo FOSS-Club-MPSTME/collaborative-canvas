@@ -11,7 +11,7 @@ export default function TabletView({ tabletId = 'A' }) {
   const [activePainting, setActivePainting] = useState(null);
   const [assignedFrame, setAssignedFrame] = useState(null);
   const [pixelGrid, setPixelGrid] = useState(null);
-  const [selectedColor, setSelectedColor] = useState('#3b82f6');
+  const [selectedColor, setSelectedColor] = useState('#00ff66');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [celebrationMsg, setCelebrationMsg] = useState(null);
@@ -178,15 +178,15 @@ export default function TabletView({ tabletId = 'A' }) {
         <div className="sticker-card animate-pop-in" style={{
           padding: '2rem',
           textAlign: 'center',
-          backgroundColor: 'var(--pop-yellow)',
-          border: '4px solid var(--ink-dark)',
-          boxShadow: '6px 6px 0px var(--ink-dark)',
+          backgroundColor: '#161b22',
+          border: '2px solid var(--pop-green)',
+          boxShadow: '0 0 20px rgba(0, 255, 102, 0.4)',
           marginBottom: '2rem'
         }}>
-          <h2 style={{ fontSize: '1.8rem', color: 'var(--ink-dark)', fontWeight: 800 }}>
+          <h2 style={{ fontSize: '1.6rem', color: 'var(--foss-green)', fontWeight: 700, fontFamily: 'Pixelify Sans, monospace' }}>
             {celebrationMsg}
           </h2>
-          <p style={{ color: 'var(--ink-dark)', marginTop: '0.5rem', fontWeight: 600 }}>
+          <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem', fontWeight: 500 }}>
             Resetting tablet for the next creator... 🎨
           </p>
         </div>
@@ -194,14 +194,12 @@ export default function TabletView({ tabletId = 'A' }) {
 
       {/* Mode 1: Participant Onboarding */}
       {mode === 'onboarding' && (
-        <div className="sticker-card tilt-slight animate-pop-in" style={{ padding: '2.5rem', maxWidth: '640px', margin: '0 auto', position: 'relative' }}>
-          <div className="pushpin" style={{ left: '50%' }} />
-
+        <div className="sticker-card animate-pop-in" style={{ padding: '2.5rem', maxWidth: '640px', margin: '0 auto', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+            <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--foss-green)', fontFamily: 'Pixelify Sans, monospace' }}>
               Join the FOSS Masterpiece! 🎨
             </h2>
-            <p style={{ color: 'var(--text-muted)', marginTop: '0.35rem', fontSize: '1rem', fontWeight: 600 }}>
+            <p style={{ color: 'var(--text-muted)', marginTop: '0.35rem', fontSize: '0.95rem', fontWeight: 500 }}>
               Enter your name & pick your sticker avatar to color your frame.
             </p>
           </div>
@@ -209,7 +207,7 @@ export default function TabletView({ tabletId = 'A' }) {
           <form onSubmit={handleStartPainting} style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             {/* Name Input */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 800, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--ink-dark)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem', fontFamily: 'Pixelify Sans, monospace' }}>
                 Your Name / Handle ✍️
               </label>
               <input
@@ -221,15 +219,15 @@ export default function TabletView({ tabletId = 'A' }) {
                 required
                 style={{
                   width: '100%',
-                  padding: '0.9rem 1.15rem',
-                  fontSize: '1.15rem',
-                  fontWeight: 700,
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: '#ffffff',
+                  padding: '0.85rem 1.15rem',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: '#0d1117',
                   color: 'var(--ink-dark)',
-                  border: '3px solid var(--ink-dark)',
-                  boxShadow: '3px 3px 0px var(--ink-dark)',
-                  outline: 'none'
+                  border: '2px solid #30363d',
+                  outline: 'none',
+                  fontFamily: 'JetBrains Mono, monospace'
                 }}
               />
             </div>
@@ -240,7 +238,7 @@ export default function TabletView({ tabletId = 'A' }) {
             </div>
 
             {errorMsg && (
-              <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--pop-red)', border: '2px solid var(--ink-dark)', color: '#ffffff', fontWeight: 700, textAlign: 'center' }}>
+              <div style={{ padding: '0.75rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(248, 81, 73, 0.15)', border: '1px solid var(--pop-red)', color: 'var(--pop-red)', fontWeight: 600, textAlign: 'center' }}>
                 {errorMsg}
               </div>
             )}
@@ -251,9 +249,9 @@ export default function TabletView({ tabletId = 'A' }) {
               className="sticker-btn"
               style={{
                 width: '100%',
-                padding: '1.1rem',
-                fontSize: '1.2rem',
-                backgroundColor: 'var(--pop-yellow)'
+                padding: '1rem',
+                fontSize: '1.1rem',
+                backgroundColor: 'var(--foss-green-dark)'
               }}
             >
               {loading ? 'Claiming Frame...' : 'Start Painting Frame →'}
@@ -266,13 +264,13 @@ export default function TabletView({ tabletId = 'A' }) {
       {mode === 'drawing' && assignedFrame && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'start' }}>
           {/* Left Column: Pixel Canvas Grid */}
-          <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <NotionAvatar avatarId={avatar} name={name} size={48} />
                 <div>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800 }}>{name}</h3>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', fontWeight: 800, fontFamily: 'Fredoka, cursive' }}>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>{name}</h3>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--foss-green)', fontWeight: 700, fontFamily: 'Pixelify Sans, monospace' }}>
                     Tablet {tabletId} • Frame #{assignedFrame.frame_number}
                   </span>
                 </div>
@@ -282,7 +280,7 @@ export default function TabletView({ tabletId = 'A' }) {
                 onClick={handleClearFrame}
                 className="sticker-btn"
                 style={{
-                  padding: '0.4rem 0.8rem',
+                  padding: '0.35rem 0.75rem',
                   fontSize: '0.8rem',
                   backgroundColor: 'var(--pop-red)',
                   color: '#ffffff'
@@ -302,22 +300,22 @@ export default function TabletView({ tabletId = 'A' }) {
               frameNumber={assignedFrame.frame_number}
             />
 
-            <p style={{ fontSize: '0.85rem', color: 'var(--ink-dark)', marginTop: '0.85rem', textAlign: 'center', fontWeight: 600 }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.85rem', textAlign: 'center', fontWeight: 500 }}>
               ✏️ <em>Tap or drag finger across grid tiles to paint pixels!</em>
             </p>
           </div>
 
           {/* Right Column: Palette & Submit Controls */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div className="sticker-card" style={{ padding: '1.5rem' }}>
+            <div className="sticker-card" style={{ padding: '1.5rem', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
               <ColorPalette selectedColor={selectedColor} onSelectColor={setSelectedColor} />
             </div>
 
-            <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink-dark)' }}>
+            <div className="sticker-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ink-dark)', fontFamily: 'Pixelify Sans, monospace' }}>
                 Lock Your Contribution 🚀
               </h4>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                 Once satisfied with your coloring, tap Submit to lock your frame into the master painting display!
               </p>
 
@@ -327,9 +325,9 @@ export default function TabletView({ tabletId = 'A' }) {
                 className="sticker-btn"
                 style={{
                   width: '100%',
-                  padding: '1.1rem',
-                  fontSize: '1.15rem',
-                  backgroundColor: 'var(--pop-green)',
+                  padding: '1rem',
+                  fontSize: '1.1rem',
+                  backgroundColor: 'var(--foss-green-dark)',
                   color: '#ffffff'
                 }}
               >
@@ -342,11 +340,11 @@ export default function TabletView({ tabletId = 'A' }) {
 
       {/* Waiting Mode */}
       {mode === 'waiting' && (
-        <div className="sticker-card tilt-slight" style={{ padding: '2.5rem', textAlign: 'center', maxWidth: '560px', margin: '0 auto' }}>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--ink-dark)', marginBottom: '0.75rem' }}>
+        <div className="sticker-card" style={{ padding: '2.5rem', textAlign: 'center', maxWidth: '560px', margin: '0 auto', backgroundColor: '#161b22', border: '1px solid #30363d' }}>
+          <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--foss-green)', marginBottom: '0.75rem', fontFamily: 'Pixelify Sans, monospace' }}>
             🎨 Tablet {tabletId} Frames Complete!
           </h3>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontWeight: 600 }}>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontWeight: 500 }}>
             {errorMsg || `All 3 frames assigned to Tablet ${tabletId} for "${activePainting?.name}" have been completed! Waiting for the other tablet to finish...`}
           </p>
           <button
@@ -356,7 +354,7 @@ export default function TabletView({ tabletId = 'A' }) {
               fetchActivePainting();
             }}
             className="sticker-btn"
-            style={{ backgroundColor: 'var(--pop-blue)', color: '#ffffff' }}
+            style={{ backgroundColor: '#21262d', color: 'var(--ink-dark)', borderColor: '#30363d' }}
           >
             Check Active Painting Status 🔄
           </button>
