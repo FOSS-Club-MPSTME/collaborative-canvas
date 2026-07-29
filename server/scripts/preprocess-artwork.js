@@ -8,18 +8,24 @@ const db = require('../db');
  * 12 Curated Master Palette Swatches
  */
 const MASTER_PALETTE = [
-  { hex: '#1a1b26', r: 26,  g: 27,  b: 38  }, // Deep Obsidian
+  { hex: '#0d1117', r: 13,  g: 17,  b: 23  }, // Obsidian Black
   { hex: '#1e3a8a', r: 30,  g: 58,  b: 138 }, // Starry Navy
-  { hex: '#3b82f6', r: 59,  g: 130, b: 246 }, // Azure Blue
-  { hex: '#06b6d4', r: 6,   g: 182, b: 212 }, // Cyan Sky
+  { hex: '#2563eb', r: 37,  g: 99,  b: 235 }, // Cobalt Blue
+  { hex: '#3b82f6', r: 59,  g: 130, b: 246 }, // Azure Sky
+  { hex: '#06b6d4', r: 6,   g: 182, b: 212 }, // Electric Cyan
+  { hex: '#00ff66', r: 0,   g: 255, b: 102 }, // Matrix Neon
   { hex: '#15803d', r: 21,  g: 128, b: 61  }, // Cypress Green
-  { hex: '#ca8a04', r: 202, g: 138, b: 4   }, // Klimt Gold
-  { hex: '#f59e0b', r: 245, g: 158, b: 11  }, // Warm Amber
+  { hex: '#22c55e', r: 34,  g: 197, b: 94  }, // Vivid Emerald
+  { hex: '#facc15', r: 250, g: 204, b: 21  }, // Sunburst Gold
+  { hex: '#ca8a04', r: 202, g: 138, b: 4   }, // Ochre Gold
+  { hex: '#f97316', r: 249, g: 115, b: 22  }, // Sunset Orange
   { hex: '#ef4444', r: 239, g: 68,  b: 68  }, // Crimson Red
   { hex: '#ec4899', r: 236, g: 72,  b: 153 }, // Rose Pink
   { hex: '#8b5cf6', r: 139, g: 92,  b: 246 }, // Twilight Violet
-  { hex: '#f3f4f6', r: 243, g: 244, b: 246 }, // Foam White
-  { hex: '#78350f', r: 120, g: 53,  b: 15  }  // Earth Bronze
+  { hex: '#92400e', r: 146, g: 64,  b: 14  }, // Warm Sienna
+  { hex: '#d97706', r: 217, g: 119, b: 6   }, // Terracotta Amber
+  { hex: '#fde047', r: 253, g: 224, b: 71  }, // Cream Highlight
+  { hex: '#f3f4f6', r: 243, g: 244, b: 246 }  // Foam White
 ];
 
 /**
@@ -48,9 +54,10 @@ function quantizeRGBToPalette(r, g, b) {
  * Downsamples & quantizes a real image file using Sharp into a 48x72 pixel grid
  * (2 rows of 24 x 3 columns of 24 = 6 frames of 24x24 = 3,456 total pixels)
  */
-async function processImageFileToMatrix(imagePath, targetRows = 48, targetCols = 72) {
+async function processImageFileToMatrix(imagePath, targetRows = 48, targetCols = 72, options = {}) {
+  const resizeOptions = { fit: 'cover', ...options };
   const { data, info } = await sharp(imagePath)
-    .resize(targetCols, targetRows, { fit: 'cover' })
+    .resize(targetCols, targetRows, resizeOptions)
     .raw()
     .toBuffer({ resolveWithObject: true });
 
@@ -140,8 +147,13 @@ function generatePresetPaintingMatrix(presetName) {
         }
 
       } else if (presetName === 'Mona Lisa') {
-        if (normX > 0.28 && normX < 0.72 && normY > 0.18) {
-          matrix[r][c] = (normY < 0.42) ? '#78350f' : '#15803d';
+        const headCenterX = 0.50;
+        const headCenterY = 0.30;
+        const headDist = Math.hypot((normX - headCenterX) * 1.5, normY - headCenterY);
+        if (headDist < 0.16) {
+          matrix[r][c] = '#f59e0b';
+        } else if (normX > 0.28 && normX < 0.72 && normY > 0.12) {
+          matrix[r][c] = (normY < 0.45) ? '#78350f' : '#15803d';
         } else if (normY < 0.48) {
           matrix[r][c] = '#06b6d4';
         } else {
@@ -199,7 +211,7 @@ async function preprocessAndSeed() {
     { name: 'The Great Wave off Kanagawa', artist: 'Hokusai', filename: 'great_wave.jpg', sequence_order: 2 },
     { name: 'The Kiss (Gustav Klimt)', artist: 'Gustav Klimt', filename: 'the_kiss.jpg', sequence_order: 3 },
     { name: 'Girl with a Pearl Earring', artist: 'Johannes Vermeer', filename: 'pearl_earring.jpg', sequence_order: 4 },
-    { name: 'Mona Lisa', artist: 'Leonardo da Vinci', filename: 'mona_lisa.jpg', sequence_order: 5 }
+    { name: 'Mona Lisa', artist: 'Leonardo da Vinci', filename: 'mona_lisa.jpg', sequence_order: 5, options: { fit: 'cover', position: 'top' } }
   ];
 
   const clearExisting = db.transaction(() => {
@@ -225,7 +237,7 @@ async function preprocessAndSeed() {
 
     if (fs.existsSync(imageFilePath)) {
       console.log(`📷 Downsampling real source image for "${item.name}" into 48x72 grid (6 frames x 24x24)`);
-      masterMatrix = await processImageFileToMatrix(imageFilePath, 48, 72);
+      masterMatrix = await processImageFileToMatrix(imageFilePath, 48, 72, item.options || {});
     } else {
       masterMatrix = generatePresetPaintingMatrix(item.name);
     }

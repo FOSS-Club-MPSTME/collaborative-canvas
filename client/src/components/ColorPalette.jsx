@@ -1,17 +1,23 @@
 import React from 'react';
 
 export const MASTER_PALETTE = [
-  { hex: '#1a1b26', name: 'Obsidian Black' },
+  { hex: '#0d1117', name: 'Obsidian Black' },
   { hex: '#1e3a8a', name: 'Starry Navy' },
-  { hex: '#3b82f6', name: 'Azure Blue' },
-  { hex: '#06b6d4', name: 'Cyan Sky' },
+  { hex: '#2563eb', name: 'Cobalt Blue' },
+  { hex: '#3b82f6', name: 'Azure Sky' },
+  { hex: '#06b6d4', name: 'Electric Cyan' },
+  { hex: '#00ff66', name: 'Matrix Neon' },
   { hex: '#15803d', name: 'Cypress Green' },
-  { hex: '#00ff66', name: 'Matrix Green' },
-  { hex: '#ca8a04', name: 'Klimt Gold' },
-  { hex: '#f59e0b', name: 'Warm Amber' },
+  { hex: '#22c55e', name: 'Vivid Emerald' },
+  { hex: '#facc15', name: 'Sunburst Gold' },
+  { hex: '#ca8a04', name: 'Ochre Gold' },
+  { hex: '#f97316', name: 'Sunset Orange' },
   { hex: '#ef4444', name: 'Crimson Red' },
   { hex: '#ec4899', name: 'Rose Pink' },
   { hex: '#8b5cf6', name: 'Twilight Violet' },
+  { hex: '#92400e', name: 'Warm Sienna' },
+  { hex: '#d97706', name: 'Terracotta Amber' },
+  { hex: '#fde047', name: 'Cream Highlight' },
   { hex: '#f3f4f6', name: 'Foam White' }
 ];
 
